@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Money App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="log_in">Login</string>
+    <string name="registration">Registration</string>
+
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="select_gender">Select gender:</string>
+
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <string name="birthday">Birthday:</string>
+    <string name="select_date">Select</string>
+
+    <string name="home_address">Home Address Khreshtik street 58, Kyiv, Ukraine</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone +380-XX-XXX-XX-XX</string>
+
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+
+    <string name="register_btn">Register</string>
+    <string name="cancel_btn">Cancel</string>
+
+    <string name="failure_auth">Login or password is not correctly!</string>
+
+
+    <!-- Message for login/registration-->
+    <string name="message_empty_fields">Fields can not be empty!</string>
+    <string name="message_error_login">The email or password don\'t correctly!</string>
+    <string name="message_error_data">The user information is not correct!</string>
+    <string name="password_error">The password is not in the correct format. Minimum:\n
+            8 characters, max. 20, exclusively English;\n
+            3 liters upper/lower register;\n
+            One Liter Upper Register;\n
+            One Symbol;\n
+            One symbol;\n
+            One number;\n
+            One number;\n
+            Also, the password must not contain your PIN, birth date, email, phone number, or easy keys (qwerty, abbreviated)\n
+            (qwerty, abcd, password, etc.).</string>
+    <string name="passwords_not_identical">Passwords do not match!</string>
+
+    <string name="years">The client\'s age cannot be less than 16 years!</string>
+
+</resources>
