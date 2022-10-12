@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.example.moneyapp.databinding.ActivityHomeBinding
 import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.User
@@ -21,10 +22,14 @@ import com.example.moneyapp.presentation.ui.LoginActivity.Companion.PASSWORD
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.PHONE
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.TEMP_USER_DATA
 import com.google.firebase.database.*
+import com.example.moneyapp.R
+import com.example.moneyapp.presentation.ui.fragments.HomeFragment
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var sharedPreferences: SharedPreferences
+
+
 
     @SuppressLint("WrongConstant", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,11 +65,27 @@ class HomeActivity : AppCompatActivity() {
 
         userAccount = UserAccount(numberKey, password, imageLink, user, list)
 
-        binding.textFullUserName.text = "${user.firstName} ${user.lastName}"
+        //binding.textFullUserName.text = "${user.firstName} ${user.lastName}"
        ///println(userAccount)
+
+        binding.bottomNavigationBar.setOnItemSelectedListener {
+            var selectedFragment : Fragment = HomeFragment()
+
+            when (it.itemId){
+
+                R.id.itemHome -> {selectedFragment = HomeFragment()}
+                R.id.itemCard -> {}
+                R.id.itemTransactions -> {}
+                R.id.itemProfile -> {}
+            }
+            return@setOnItemSelectedListener true
+        }
+
 
 
     }
+
+    //TODO кнопка выхода из FirebaseAuth
 
     companion object{
         lateinit var userAccount: UserAccount

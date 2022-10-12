@@ -14,4 +14,7 @@
     <color name="bg1">#FFF7DD</color>
     <color name="caption_color">#002CC7</color>
     <color name="red">#FF0000</color>
+
+    <color name="selected_item_color">#F9F9F9</color>
+    <color name="item_color_text">#8D8D8D</color>
 </resources>

@@ -49,4 +49,8 @@
 
     <string name="years">The client\'s age cannot be less than 16 years!</string>
 
+    <string name="home_menu_item">Home</string>
+    <string name="cards_menu_item">Cards</string>
+    <string name="transactions_menu_item">Transactions</string>
+    <string name="profile_menu_item">Profile</string>
 </resources>
