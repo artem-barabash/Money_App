@@ -53,4 +53,7 @@
     <string name="cards_menu_item">Cards</string>
     <string name="transactions_menu_item">Transactions</string>
     <string name="profile_menu_item">Profile</string>
+
+    <string name="greeting">Good Morning!</string>
+    <string name="available_text">Available Balance</string>
 </resources>

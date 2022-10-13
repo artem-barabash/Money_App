@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.moneyapp.databinding.ActivityHomeBinding
 import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.User
@@ -24,11 +26,16 @@ import com.example.moneyapp.presentation.ui.LoginActivity.Companion.TEMP_USER_DA
 import com.google.firebase.database.*
 import com.example.moneyapp.R
 import com.example.moneyapp.presentation.ui.fragments.HomeFragment
+import com.example.moneyapp.presentation.viewmodel.HomeViewModel
+import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var sharedPreferences: SharedPreferences
 
+    private val sharedViewModel: HomeViewModel by viewModels{
+        HomeViewModelFactory(userAccount)
+    }
 
 
     @SuppressLint("WrongConstant", "SetTextI18n")
@@ -65,8 +72,9 @@ class HomeActivity : AppCompatActivity() {
 
         userAccount = UserAccount(numberKey, password, imageLink, user, list)
 
-        //binding.textFullUserName.text = "${user.firstName} ${user.lastName}"
        ///println(userAccount)
+
+        replaceFragment(HomeFragment())
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
             var selectedFragment : Fragment = HomeFragment()
@@ -78,12 +86,19 @@ class HomeActivity : AppCompatActivity() {
                 R.id.itemTransactions -> {}
                 R.id.itemProfile -> {}
             }
+
+            replaceFragment(selectedFragment)
+
             return@setOnItemSelectedListener true
         }
-
-
-
     }
+
+    private fun replaceFragment(selectedFragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fl_layout, selectedFragment)
+        transaction.commit()
+    }
+
 
     //TODO кнопка выхода из FirebaseAuth
 
