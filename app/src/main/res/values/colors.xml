@@ -23,4 +23,10 @@
     <color name="txt_color_1">#CECECE</color>
     <color name="txt_color_2">#F9F9F9</color>
     <color name="txt_color_3">#D8D8D8</color>
+
+    <color name="circle_color">#DBE3F8</color>
+    
+    <color name="circle_text_color">#EEEEEE</color>
+
+    <color name="block_color">#292929</color>
 </resources>

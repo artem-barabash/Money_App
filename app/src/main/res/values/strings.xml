@@ -56,4 +56,14 @@
 
     <string name="greeting">Good Morning!</string>
     <string name="available_text">Available Balance</string>
+
+    <string name="service_transfer">Transfer</string>
+    <string name="service_bill">Bills</string>
+    <string name="service_recharge">Recharge</string>
+    <string name="service_more">More</string>
+    
+    <string name="my_card_header">My Cards</string>
+
+    <string name="view_all_btn_text"><u>View All</u></string>
+
 </resources>
