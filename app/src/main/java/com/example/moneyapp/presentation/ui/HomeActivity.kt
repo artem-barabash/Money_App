@@ -25,6 +25,8 @@ import com.example.moneyapp.presentation.ui.LoginActivity.Companion.PHONE
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.TEMP_USER_DATA
 import com.google.firebase.database.*
 import com.example.moneyapp.R
+import com.example.moneyapp.domain.use_cases.UserAccountFactory
+import com.example.moneyapp.presentation.ui.fragments.CardFragment
 import com.example.moneyapp.presentation.ui.fragments.HomeFragment
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
@@ -32,11 +34,6 @@ import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var sharedPreferences: SharedPreferences
-
-    private val sharedViewModel: HomeViewModel by viewModels{
-        HomeViewModelFactory(userAccount)
-    }
-
 
     @SuppressLint("WrongConstant", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,9 +67,8 @@ class HomeActivity : AppCompatActivity() {
 
         val list = ArrayList<Operation>()
 
-        userAccount = UserAccount(numberKey, password, imageLink, user, list)
-
-       ///println(userAccount)
+        val userAccount = UserAccount(numberKey, password, imageLink, user, list)
+        UserAccountFactory(userAccount)
 
         replaceFragment(HomeFragment())
 
@@ -82,7 +78,7 @@ class HomeActivity : AppCompatActivity() {
             when (it.itemId){
 
                 R.id.itemHome -> {selectedFragment = HomeFragment()}
-                R.id.itemCard -> {}
+                R.id.itemCard -> {selectedFragment = CardFragment()}
                 R.id.itemTransactions -> {}
                 R.id.itemProfile -> {}
             }
@@ -97,13 +93,6 @@ class HomeActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fl_layout, selectedFragment)
         transaction.commit()
-    }
-
-
-    //TODO кнопка выхода из FirebaseAuth
-
-    companion object{
-        lateinit var userAccount: UserAccount
     }
 
 }

@@ -91,7 +91,10 @@ class LoginActivity : AppCompatActivity() {
                         binding.editTextPassword.backgroundTintList = getColorStateList(R.color.white)
                         binding.textViewOnError.text = ""
 
+
                         getUserDataInFireBase(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
+
+
 
                     }
                 }.addOnFailureListener {
@@ -175,6 +178,14 @@ class LoginActivity : AppCompatActivity() {
 
 
         editor.commit()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        //при возврате на LoginActivity из HomeActivity
+        binding.editTextEmail.text.clear()
+        binding.editTextPassword.text.clear()
     }
 
     companion object{

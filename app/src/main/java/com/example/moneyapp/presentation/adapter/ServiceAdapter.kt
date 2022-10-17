@@ -33,7 +33,7 @@ class ServiceAdapter(
 
     class ServiceViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val textView:TextView = view.findViewById(R.id.textService)
-        val imageView: ImageView = view.findViewById(R.id.imageService)
+        val imageView: ImageView = view.findViewById(R.id.imageCard)
     }
 
 }

@@ -61,9 +61,14 @@
     <string name="service_bill">Bills</string>
     <string name="service_recharge">Recharge</string>
     <string name="service_more">More</string>
-    
+
     <string name="my_card_header">My Cards</string>
 
+    <string name="my_transaction_header">Recent Transactions</string>
+
     <string name="view_all_btn_text"><u>View All</u></string>
+
+    <string name="visa_txt">Visa Card</string>
+    <string name="master_text">Master Card</string>
 
 </resources>
