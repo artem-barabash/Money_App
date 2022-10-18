@@ -26,6 +26,8 @@
     <color name="txt_color_4">#99EEEEEE</color>
 
     <color name="txt_color_5">#DB031952</color>
+    <color name="txt_color_6">#C2FFFFFF</color>
+    <color name="txt_color_7">#80FFFFFF</color>
 
     <color name="circle_color">#DBE3F8</color>
     
@@ -39,4 +41,14 @@
 
     <color name="default_dot_color">#6C6C6C</color>
     <color name="selected_dot_color">#B1BEEC</color>
+
+    <color name="block_color_1">#414A61</color>
+
+    <color name="tab_color">#80414A61</color>
+    
+    <color name="circle_menu_item_color">#6A6A6A</color>
+
+    <color name="border_color">#80585858</color>
+
+    <color name="dark_white">#CCEEEEEE</color>
 </resources>

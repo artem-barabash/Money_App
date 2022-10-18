@@ -55,6 +55,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        //TODO нужно подключить тему исключительно на данном фрагменте
         context?.theme!!.applyStyle(R.style.Theme_HomeFragment, false)
 
 
@@ -82,7 +83,7 @@ class HomeFragment : Fragment() {
 
         val listService = ArrayList<Service>()
         listService.add(Service(R.drawable.ic_transfer,R.string.service_transfer))
-        listService.add(Service( R.drawable.ic_bill_payment,R.string.service_bill))
+        listService.add(Service(R.drawable.ic_bill_payment,R.string.service_bill))
         listService.add(Service(R.drawable.ic_mobile,R.string.service_recharge ))
         listService.add(Service(R.drawable.ic_more, R.string.service_more))
 

@@ -29,7 +29,6 @@
                 android:id="@+id/card_view_view_pager_block"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -75,6 +74,119 @@
                     app:tabGravity="center"
                     app:tabIndicatorHeight="0dp"
                     tools:ignore="MissingConstraints" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/make_payment_block"
+                android:clickable="true"
+                android:onClick="@{() -> cardFragment.enterToPayment()}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/border_radius_2"
+                android:backgroundTint="@color/block_color_1"
+                android:padding="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_view_pager_block"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/textViewMakePayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/make_payment_text"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:fontFamily="@font/poppins_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/textSumPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:fontFamily="@font/poppins_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/textDatePayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Due Feb 22 2022"
+                    android:textColor="@color/txt_color_6"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/poppins_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textSumPayment"
+                    tools:ignore="MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tab_view_pager_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/make_payment_block">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayoutViewPager"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="40dp"
+
+
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabBackground="@drawable/view_pager_tab"
+                    app:tabGravity="center"
+                    app:tabIndicator="@drawable/selected_view_pager_tab"
+                    app:tabIndicatorAnimationDuration="250"
+                    app:tabIndicatorAnimationMode="elastic"
+                    app:tabIndicatorColor="@color/block_color_1"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabInlineLabel="true"
+                    app:tabMinWidth="130dp"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/white"
+                    app:tabTextAppearance="@style/TextStyleTabViewPager"
+                    app:tabTextColor="@color/txt_color_7">
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPagerTabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/border_card_block"
+                    android:backgroundTint="@color/block_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tabLayoutViewPager" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

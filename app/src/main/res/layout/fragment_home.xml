@@ -176,6 +176,7 @@
                         android:layout_height="wrap_content"
                         android:background="#55000000"
                         android:text="@string/view_all_btn_text"
+                        app:fontFamily="@font/poppins_medium"
                         android:textColor="@color/txt_color_3"
                         android:textSize="14sp"
                         app:backgroundTint="#55000000"

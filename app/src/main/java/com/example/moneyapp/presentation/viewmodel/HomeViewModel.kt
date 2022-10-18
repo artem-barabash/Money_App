@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.moneyapp.domain.use_cases.UserAccount
 import java.text.NumberFormat
+import java.util.*
 
 class HomeViewModel(userAccount: UserAccount): ViewModel() {
 
@@ -14,7 +15,7 @@ class HomeViewModel(userAccount: UserAccount): ViewModel() {
 
     private val _balance = MutableLiveData(0.0)
     val balance: LiveData<String> = Transformations.map(_balance){
-        NumberFormat.getCurrencyInstance().format(it)
+        NumberFormat.getCurrencyInstance(Locale("en", "US")).format(it)
     }
 
     init {

@@ -28,6 +28,7 @@ import com.example.moneyapp.R
 import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.presentation.ui.fragments.CardFragment
 import com.example.moneyapp.presentation.ui.fragments.HomeFragment
+import com.example.moneyapp.presentation.ui.fragments.TransactionListFragment
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 
@@ -79,7 +80,7 @@ class HomeActivity : AppCompatActivity() {
 
                 R.id.itemHome -> {selectedFragment = HomeFragment()}
                 R.id.itemCard -> {selectedFragment = CardFragment()}
-                R.id.itemTransactions -> {}
+                R.id.itemTransactions -> {selectedFragment = TransactionListFragment()}
                 R.id.itemProfile -> {}
             }
 

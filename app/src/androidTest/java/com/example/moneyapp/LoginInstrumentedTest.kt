@@ -3,8 +3,7 @@ package com.example.moneyapp
 import android.content.Intent
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
@@ -66,6 +65,25 @@ class LoginInstrumentedTest {
 
         onView(withId(R.id.textFullUserName))
             .check(matches(withText(containsString("Fox Fox"))))
+    }
+
+    @Test
+    fun entered_in_account_and_back_to_login(){
+        onView(withId(R.id.editTextEmail)).perform(replaceText("fox@gmail.com"))
+
+        onView(withId(R.id.editTextPassword)).perform(replaceText("Fix@1234"))
+
+        onView(withId(R.id.buttonLogin)).perform(click())
+
+        Thread.sleep(1000)
+
+        onView(isRoot()).perform(pressBack())
+        //проверяем на пустое поля после выхода из акаунта
+        onView(withId(R.id.editTextEmail)).
+                check(matches(withText(containsString(""))))
+
+        onView(withId(R.id.editTextPassword)).
+        check(matches(withText(containsString(""))))
     }
 
 }

@@ -71,4 +71,18 @@
     <string name="visa_txt">Visa Card</string>
     <string name="master_text">Master Card</string>
 
+    <string name="make_payment_text">Make a Payment</string>
+
+    <string name="view_statement_txt">View Statement</string>
+    <string name="change_pin_txt">Change Pin</string>
+    <string name="remove_card_txt">Remove Card</string>
+
+    <string name="transaction_caption">Transactions</string>
+    
+    <string name="select_time_txt"><u>Select Time Range</u></string>
+    <string name="recent_caption"><u>Recent</u></string>
+
+    <string name="all_text">All</string>
+    <string name="income_txt">Income</string>
+    <string name="expense_txt">Expense</string>
 </resources>
