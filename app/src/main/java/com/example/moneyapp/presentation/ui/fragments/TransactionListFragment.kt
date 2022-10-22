@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.moneyapp.R
 import com.example.moneyapp.databinding.FragmentTransactionListBinding
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
+import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.adapter.TabViewOperationsAdapter
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
@@ -28,7 +29,10 @@ class TransactionListFragment : Fragment() {
 
 
     private val sharedViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(ACCOUNT)
+        HomeViewModelFactory(
+            ACCOUNT,
+            (activity?.application as UserDataApplication).database.operationDao()
+        )
     }
 
 
@@ -94,5 +98,8 @@ class TransactionListFragment : Fragment() {
 
     fun showSelectedTime(){}
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

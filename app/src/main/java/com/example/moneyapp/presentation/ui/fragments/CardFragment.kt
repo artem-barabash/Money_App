@@ -12,6 +12,7 @@ import com.example.moneyapp.databinding.FragmentCardBinding
 
 import com.example.moneyapp.domain.entities.Card
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
+import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.adapter.CardViewPagerAdapter
 import com.example.moneyapp.presentation.adapter.TabViewPagerAdapter
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
@@ -27,7 +28,10 @@ class CardFragment : Fragment() {
     private val binding get() = _binding
 
     private val sharedViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(ACCOUNT)
+        HomeViewModelFactory(
+            ACCOUNT,
+            (activity?.application as UserDataApplication).database.operationDao()
+        )
     }
 
     private val labels = arrayOf("Settings", "Transactions")
@@ -125,6 +129,11 @@ class CardFragment : Fragment() {
 
     fun enterToPayment(){
         Toast.makeText(requireContext(), "Make Payment", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

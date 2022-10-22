@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ListAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
 import com.example.moneyapp.domain.entities.Operation
 import java.text.NumberFormat
+import java.time.LocalDate
 import java.util.*
+import kotlin.collections.ArrayList
 
 class OperationAdapter(
     private val numberUser: String,
@@ -30,6 +34,7 @@ class OperationAdapter(
     @SuppressLint("ResourceAsColor", "SetTextI18n")
     override fun onBindViewHolder(holder: OperationViewHolder, position: Int) {
         val item = list[position]
+
 
         if(item.receive == numberUser){
             holder.imageOperation.setImageResource(R.drawable.ic_type_recieve)
@@ -52,6 +57,7 @@ class OperationAdapter(
         }
 
     }
+
 
     override fun getItemCount(): Int {
         return list.size

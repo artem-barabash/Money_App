@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
+import com.example.moneyapp.data.room.AppDatabase
 import com.example.moneyapp.databinding.FragmentHomeBinding
 import com.example.moneyapp.domain.entities.Card
 
@@ -19,6 +21,7 @@ import com.example.moneyapp.domain.entities.Service
 import com.example.moneyapp.domain.use_cases.UserAccount
 import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
+import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.adapter.CardAdapter
 import com.example.moneyapp.presentation.adapter.ServiceAdapter
 
@@ -42,7 +45,10 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerViewCard: RecyclerView
 
     private val sharedViewModel: HomeViewModel by activityViewModels{
-        HomeViewModelFactory(ACCOUNT)
+        HomeViewModelFactory(
+            ACCOUNT,
+            (activity?.application as UserDataApplication).database.operationDao()
+        )
     }
 
 
@@ -73,8 +79,11 @@ class HomeFragment : Fragment() {
             homeFragment = this@HomeFragment
         }
 
-        init()
 
+        sharedViewModel.addOperationFromFireBaseToRoom()
+
+
+        init()
     }
 
     private fun init(){
@@ -101,6 +110,11 @@ class HomeFragment : Fragment() {
         recyclerViewCard.adapter = cardAdapter
 
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

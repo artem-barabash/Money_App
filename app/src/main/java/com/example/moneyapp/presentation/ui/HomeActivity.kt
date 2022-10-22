@@ -26,6 +26,7 @@ import com.example.moneyapp.presentation.ui.LoginActivity.Companion.TEMP_USER_DA
 import com.google.firebase.database.*
 import com.example.moneyapp.R
 import com.example.moneyapp.domain.use_cases.UserAccountFactory
+import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.ui.fragments.CardFragment
 import com.example.moneyapp.presentation.ui.fragments.HomeFragment
 import com.example.moneyapp.presentation.ui.fragments.TransactionListFragment
@@ -36,9 +37,14 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var sharedPreferences: SharedPreferences
 
+
+
+
     @SuppressLint("WrongConstant", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
