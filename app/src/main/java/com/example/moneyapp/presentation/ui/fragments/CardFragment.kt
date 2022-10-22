@@ -32,6 +32,8 @@ class CardFragment : Fragment() {
 
     private val labels = arrayOf("Settings", "Transactions")
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -31,7 +31,7 @@
             tools:ignore="MissingConstraints">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout5"
+                android:id="@+id/circleItem"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:background="@drawable/circle_menu_item"
@@ -41,7 +41,7 @@
                 tools:ignore="MissingConstraints">
 
                 <ImageView
-                    android:id="@+id/imageView1"
+                    android:id="@+id/imageViewItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_statement"
@@ -61,7 +61,7 @@
                 android:textSize="16sp"
                 app:fontFamily="@font/poppins_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/constraintLayout5"
+                app:layout_constraintStart_toEndOf="@+id/circleItem"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.509" />
 

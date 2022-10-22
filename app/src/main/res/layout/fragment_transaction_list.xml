@@ -19,14 +19,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/caption_block"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/transaction_view_pager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -49,15 +51,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
+                    android:clickable="true"
                     android:text="@string/recent_caption"
                     android:textColor="@color/dark_white"
                     android:textSize="14sp"
                     app:fontFamily="@font/poppins_medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView7"
-                    android:clickable="true"
 
-                    tools:ignore="MissingConstraints"/>
+                    tools:ignore="MissingConstraints" />
 
                 <!--android:onClick="@{() -> fragment.showRecentlyTransactions}"-->
                 <TextView
@@ -65,11 +67,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
+                    android:clickable="true"
                     android:text="@string/select_time_txt"
                     android:textColor="@color/dark_white"
                     android:textSize="14sp"
                     app:fontFamily="@font/poppins_medium"
-                    android:clickable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView7"
                     tools:ignore="MissingConstraints" />
@@ -88,12 +90,30 @@
                 android:layout_marginEnd="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/caption_block" >
+                app:layout_constraintTop_toBottomOf="@+id/caption_block">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayoutTransactions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabBackground="@drawable/view_pager_tab"
+                    app:tabIconTint="@null"
+                    app:tabIconTintMode="add"
+                    app:tabIndicator="@drawable/selected_view_pager_tab"
+                    app:tabIndicatorAnimationDuration="250"
+                    app:tabIndicatorAnimationMode="elastic"
+                    app:tabIndicatorColor="@color/block_color_1"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabInlineLabel="true"
+                    app:tabMode="auto"
+                    app:tabSelectedTextColor="@color/white"
+                    app:tabTextAppearance="@style/TextStyleTabViewPager"
+                    app:tabTextColor="@color/dark_white"
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.tabs.TabItem
@@ -112,15 +132,31 @@
                         android:text="Wednesday" />
                 </com.google.android.material.tabs.TabLayout>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_view_pager">
+
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPagerTabTransaction"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tabLayoutTransactions" />
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </layout>
 
 

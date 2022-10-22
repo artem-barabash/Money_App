@@ -172,7 +172,8 @@
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/white"
                     app:tabTextAppearance="@style/TextStyleTabViewPager"
-                    app:tabTextColor="@color/txt_color_7">
+                    app:tabTextColor="@color/txt_color_7"
+                    tools:ignore="SpeakableTextPresentCheck">
 
                 </com.google.android.material.tabs.TabLayout>
 
