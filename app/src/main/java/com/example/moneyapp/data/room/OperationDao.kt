@@ -16,7 +16,13 @@ interface OperationDao {
     fun insertAll(listOperation: List<Operation>)
 
     @Query("SELECT * FROM operations WHERE send_number = :number OR receive_number = :number")
-    fun getOperationsForUser(number: String) : Flow<List<Operation>>
+    fun getOperationsForUserAll(number: String) : Flow<List<Operation>>
+
+    @Query("SELECT * FROM operations WHERE receive_number = :number")
+    fun getOperationsForUserIncome(number: String) : Flow<List<Operation>>
+
+    @Query("SELECT * FROM operations WHERE send_number = :number")
+    fun getOperationsForUserExpense(number: String) : Flow<List<Operation>>
 
     @Query("DELETE FROM operations")
     fun deleteAllRows()

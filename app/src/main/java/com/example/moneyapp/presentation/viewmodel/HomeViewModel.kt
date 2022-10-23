@@ -1,18 +1,15 @@
 package com.example.moneyapp.presentation.viewmodel
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.*
 import com.example.moneyapp.data.room.OperationDao
 import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.use_cases.UserAccount
-import com.example.moneyapp.presentation.adapter.OperationAdapter
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -39,31 +36,11 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
         return (user.value?.user?.firstName ?: "") + " " +(user.value?.user?.lastName ?: "")
     }
 
-    fun getListSeparatedByDayOperation(list: ArrayList<Operation>) {
-        var dateOperation = getLocalDate(list[0])!!
-
-        val listOperation = ArrayList<Operation>()
-
-
-        for(i in 0 until list.size){
-            if(getLocalDate(list[i]) == dateOperation){
-                listOperation.add(list[i])
-            }else{
-                println("$dateOperation $listOperation")
-                //println("${dateOperation.toString()}")
-                dateOperation = getLocalDate(list[i])!!
-                listOperation.clear()
-                listOperation.add(list[i])
-            }
-        }
-
-    }
 
     fun addOperationFromFireBaseToRoom(){
-        //before delete last operations
-
 
         CoroutineScope(Dispatchers.IO).launch {
+            //before delete last operations
             operationDao.deleteAllRows()
 
             retrievedOperationsFromFireBase("receive")
@@ -97,8 +74,6 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
                             }else 0.0
 
 
-
-
                             val operation = Operation(
                                 countOperation,
                                 h.child("send").getValue(String::class.java)!!,
@@ -109,8 +84,6 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
                             list.add(operation)
                             countOperation++
-
-
                         }
 
                         CoroutineScope(Dispatchers.IO).launch {
@@ -129,12 +102,37 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     }
 
 
-    fun getOperations(number: String): Flow<List<Operation>> = operationDao.getOperationsForUser(number)
+    fun getOperationsAll(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserAll(number)
+
+    fun getOperationsIncome(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserIncome(number)
+
+    fun getOperationsExpense(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserExpense(number)
+
+    /*fun getListSeparatedByDayOperation(list: ArrayList<Operation>) {
+        var dateOperation = getLocalDate(list[0])!!
+
+        val listOperation = ArrayList<Operation>()
+
+
+        for(i in 0 until list.size){
+            if(getLocalDate(list[i]) == dateOperation){
+                listOperation.add(list[i])
+            }else{
+                println("$dateOperation $listOperation")
+                //println("${dateOperation.toString()}")
+                dateOperation = getLocalDate(list[i])!!
+                listOperation.clear()
+                listOperation.add(list[i])
+            }
+        }
+
+    }
+
 
     @SuppressLint("NewApi")
     private fun getLocalDate(operation: Operation): LocalDate? {
         val date = operation.time.split(" ")[0]
         return LocalDate.parse(date)
-    }
+    }*/
 
 }
