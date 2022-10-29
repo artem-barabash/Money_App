@@ -140,6 +140,7 @@ class OperationFragment(private val selectedCategory: String) : Fragment() {
                 }
             }
 
+
             transactionsWithHeaders.add(element)
         }
 

@@ -12,7 +12,7 @@ import java.text.NumberFormat
 import java.util.*
 
 data class TransactionsItem(val operation: Operation): BaseItem {
-    override val layoutId = R.layout.operation_item
+    override val layoutId = R.layout.transaction_item
 
     override val uniqueId: Any = operation.time
 

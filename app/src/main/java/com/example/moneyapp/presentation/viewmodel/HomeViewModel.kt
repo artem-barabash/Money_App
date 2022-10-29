@@ -1,9 +1,16 @@
 package com.example.moneyapp.presentation.viewmodel
 
-import androidx.lifecycle.*
+import android.provider.Settings.System.getString
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.example.moneyapp.data.room.OperationDao
+import com.example.moneyapp.domain.constant.Message
 import com.example.moneyapp.domain.entities.Operation
+import com.example.moneyapp.domain.entities.Person
 import com.example.moneyapp.domain.use_cases.UserAccount
+import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +18,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class HomeViewModel(userAccount: UserAccount, private val operationDao: OperationDao): ViewModel() {
 
@@ -25,11 +31,19 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
     private var countOperation = 0
 
+    private val _recipient = MutableLiveData<String?>()
+    val recipient: LiveData<String?> = _recipient
+
+
+
+    private lateinit var databaseReference:DatabaseReference
 
     init {
         _user.value = userAccount
 
         _balance.value = user.value?.user?.balance
+
+        _recipient.value = ""
     }
 
     fun getFullUserName():String{
@@ -53,7 +67,7 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
         val number:String = user.value?.number ?: ""
 
-        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+        databaseReference = FirebaseDatabase.getInstance().reference
         val operationRef = databaseReference.child("Operation")
 
 
@@ -108,31 +122,74 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
     fun getOperationsExpense(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserExpense(number)
 
-    /*fun getListSeparatedByDayOperation(list: ArrayList<Operation>) {
-        var dateOperation = getLocalDate(list[0])!!
+    fun showCardNumber(number: String): String? {
+        val arrNumber = number.split("".toRegex()).toTypedArray()
+        val sb = StringBuilder()
+        for (i in arrNumber.indices) {
+            sb.append(arrNumber[i])
+            if (i % 4 == 0 && i != arrNumber.size - 1) sb.append(" ")
+        }
+        return sb.toString()
+    }
 
-        val listOperation = ArrayList<Operation>()
+    fun checkNumberInFirebase(number: String){
+        databaseReference = FirebaseDatabase.getInstance().reference.child("User")
 
+        val currentNumber = if(number.length != 19) number  else number.trim()
 
-        for(i in 0 until list.size){
-            if(getLocalDate(list[i]) == dateOperation){
-                listOperation.add(list[i])
-            }else{
-                println("$dateOperation $listOperation")
-                //println("${dateOperation.toString()}")
-                dateOperation = getLocalDate(list[i])!!
-                listOperation.clear()
-                listOperation.add(list[i])
-            }
+        if(currentNumber != ACCOUNT.number.trim()){
+            val query:Query = databaseReference.orderByKey().equalTo(currentNumber)
+
+            query.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    if(snapshot.exists()) {
+
+                        for (itemSnapshot in snapshot.children){
+
+                            val numberRecipient = itemSnapshot.key
+                            val firstNameRecipient =
+                                itemSnapshot.child("firstName").getValue(String::class.java)!!
+                            val lastNameRecipient =
+                                itemSnapshot.child("lastName").getValue(String::class.java)!!
+
+                            val recipientPerson = Person(
+                                numberRecipient.toString(),
+                                firstNameRecipient,
+                                lastNameRecipient
+                            )
+
+                            _recipient.value =
+                                showCardNumber(recipientPerson.number) + " - \n" + recipientPerson.firstName + " " + recipientPerson.lastName
+                        }
+                    }else {
+                        _recipient.value = Message.noCorrectRecipientNumber
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                    error.toException()
+                }
+
+            })
         }
 
     }
 
+    fun closeTransaction(){
+        _recipient.value = ""
+    }
 
-    @SuppressLint("NewApi")
-    private fun getLocalDate(operation: Operation): LocalDate? {
-        val date = operation.time.split(" ")[0]
-        return LocalDate.parse(date)
-    }*/
+    fun sendToRecipient(sumTransaction: Double) {
+        if(recipient.value != Message.noCorrectRecipientNumber || recipient.value != ""){
+            _balance.value = _user.value?.user?.balance?.minus(sumTransaction)!!
+
+            ACCOUNT.user.balance = _user.value?.user?.balance!!
+
+            println("ACCOUNT = $ACCOUNT")
+        }
+    }
 
 }

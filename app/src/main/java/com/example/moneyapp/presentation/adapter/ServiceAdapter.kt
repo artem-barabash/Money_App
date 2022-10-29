@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
 import com.example.moneyapp.domain.entities.Service
+import com.example.moneyapp.presentation.ui.fragments.TransferFragment
 
 class ServiceAdapter(
     private val context: Context,
@@ -25,6 +29,19 @@ class ServiceAdapter(
         val item = dataset[position]
         holder.imageView.setImageResource(item.imageId)
         holder.textView.text = context.resources.getString(item.nameId)
+
+        holder.itemView.setOnClickListener{
+            val fragmentManager = (context as AppCompatActivity).supportFragmentManager
+            val transactionFragment = fragmentManager.beginTransaction()
+
+            if(dataset[position].nameId == R.string.service_transfer){
+                transactionFragment.replace(R.id.fl_layout, TransferFragment())
+
+                transactionFragment.commit()
+            }
+
+
+        }
     }
 
     override fun getItemCount(): Int {

@@ -85,4 +85,37 @@
     <string name="all_text">All</string>
     <string name="income_txt">Income</string>
     <string name="expense_txt">Expense</string>
+
+    <!-- Account-->
+    <string name="account_title">Account</string>
+    <string name="text_alpaca">Alpaca</string>
+    <string name="text_holder_name">Card Holder Name</string>
+    <string name="txt_expiry_date">Expiry date</string>
+    <string name="detail_info">Detail information</string>
+
+    <string name="account_name">Name</string>
+    <string name="account_phone_number">Phone Number</string>
+    <string name="account_email">E-mail</string>
+    <string name="account_home_address">Home Address</string>
+
+    <string name="transfer_header">Transfer</string>
+    <string name="from_text">From</string>
+    <string name="account_txt">Account</string>
+    <string name="to_txt">To</string>
+    <string name="amount_txt">Amount</string>
+    <string name="purpose_txt">Purpose</string>
+    <string name="send_btn_txt">Send</string>
+    
+    <string name="recipient_number">Enter recipient number:</string>
+    <string name="failure_user">User\'s number is wrong!</string>
+
+    <string name="failure_payment">The sum is incorrect!</string>
+
+    <string-array name="pay_services_array">
+        <item>Education</item>
+        <item>Communal services</item>
+        <item>Transfer to card</item>
+    </string-array>
+
+
 </resources>

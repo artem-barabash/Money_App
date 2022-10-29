@@ -27,6 +27,7 @@ import com.google.firebase.database.*
 import com.example.moneyapp.R
 import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.domain.use_cases.UserDataApplication
+import com.example.moneyapp.presentation.ui.fragments.AccountFragment
 import com.example.moneyapp.presentation.ui.fragments.CardFragment
 import com.example.moneyapp.presentation.ui.fragments.HomeFragment
 import com.example.moneyapp.presentation.ui.fragments.TransactionListFragment
@@ -87,7 +88,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.itemHome -> {selectedFragment = HomeFragment()}
                 R.id.itemCard -> {selectedFragment = CardFragment()}
                 R.id.itemTransactions -> {selectedFragment = TransactionListFragment()}
-                R.id.itemProfile -> {}
+                R.id.itemProfile -> {selectedFragment = AccountFragment()}
             }
 
             replaceFragment(selectedFragment)

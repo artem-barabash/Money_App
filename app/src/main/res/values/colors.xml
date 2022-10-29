@@ -50,8 +50,13 @@
 
     <color name="border_color">#80585858</color>
 
+
+
     <color name="dark_white">#CCEEEEEE</color>
 
     <color name="received_color">#45661B</color>
     <color name="sent_color">#4829A8</color>
+    <color name="transfer_color">#7485B4</color>
+
+    <color name="hint_color">#626262</color>
 </resources>

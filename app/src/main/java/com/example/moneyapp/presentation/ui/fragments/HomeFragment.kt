@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
@@ -127,9 +128,9 @@ class HomeFragment : Fragment() {
 
         transactionRecyclerView.adapter = operationAdapter
 
-        GlobalScope.launch(Dispatchers.IO){
+        viewLifecycleOwner.lifecycleScope.launch(){
             sharedViewModel.getOperationsAll(ACCOUNT.number).collect(){ it ->
-                operationAdapter.submitList(it.sortedByDescending { it.time })
+                operationAdapter.submitList(it.sortedByDescending { it.time }.take(2))
             }
         }
 

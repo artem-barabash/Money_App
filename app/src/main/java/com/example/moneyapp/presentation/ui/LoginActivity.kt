@@ -114,6 +114,7 @@ class LoginActivity : AppCompatActivity() {
     private fun getUserDataInFireBase(email: String, password: String){
         val dataReferenceUser: DatabaseReference = databaseReference.child("User")
 
+
         val query: Query = dataReferenceUser.orderByChild("email").equalTo(email)
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             @SuppressLint("WrongConstant", "ApplySharedPref")

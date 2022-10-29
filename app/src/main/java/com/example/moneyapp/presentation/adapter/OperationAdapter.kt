@@ -46,11 +46,11 @@ class OperationAdapter(private val onItemClicked: (Operation) -> Unit) :
     }
 
 
-
     class OperationViewHolder(private var binding: OperationItemBinding): RecyclerView.ViewHolder(binding.root) {
         /*val imageOperation:ImageView = view.findViewById(R.id.imageViewItem)
         val nameOperation:TextView = view.findViewById(R.id.name_operation)
         val balanceOperation:TextView = view.findViewById(R.id.textSum)*/
+        @SuppressLint("SetTextI18n")
         fun bind(operation: Operation){
             if(operation.receive == ACCOUNT.number){
                 binding.imageViewItem.setImageResource(R.drawable.ic_type_recieve)
