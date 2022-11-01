@@ -45,5 +45,15 @@ class TransactionAdapter(private val onItemClicked:(Operation) -> Unit):
     }
 
 
+    companion object{
+        const val FIRST_ELEMENT = "FIRST_ELEMENT"
+
+        const val SIMPLE_ELEMENT = "SIMPLE_ELEMENT"
+
+        const val LAST_ELEMENT = "LAST_ELEMENT"
+
+        const val SINGLE_ELEMENT = "SINGLE_ELEMENT"
+    }
+
 }
 

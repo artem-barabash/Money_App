@@ -1,5 +1,6 @@
 package com.example.moneyapp.presentation.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
 import com.example.moneyapp.data.room.AppDatabase
 import com.example.moneyapp.databinding.FragmentHomeBinding
-import com.example.moneyapp.domain.entities.Card
+import com.example.moneyapp.domain.entities.*
 
-import com.example.moneyapp.domain.entities.Service
 import com.example.moneyapp.domain.use_cases.UserAccount
 import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
@@ -26,9 +27,11 @@ import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.adapter.CardAdapter
 import com.example.moneyapp.presentation.adapter.OperationAdapter
 import com.example.moneyapp.presentation.adapter.ServiceAdapter
+import com.example.moneyapp.presentation.adapter.TransactionAdapter
 
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -49,6 +52,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var recyclerViewCard: RecyclerView
 
+    private lateinit var cardAdapter: CardAdapter
+
     private lateinit var transactionRecyclerView: RecyclerView
 
     private val sharedViewModel: HomeViewModel by activityViewModels{
@@ -62,22 +67,38 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        
         sharedViewModel.addOperationFromFireBaseToRoom()
-        
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         //TODO нужно подключить тему исключительно на данном фрагменте
-        context?.theme!!.applyStyle(R.style.Theme_HomeFragment, false)
+        //context?.theme!!.applyStyle(R.style.Theme_HomeFragment, false)
 
 
        _binding = FragmentHomeBinding.inflate(inflater,container, false)
         val root: View = binding!!.root
+
+
+        //val cardAdapter = CardAdapter(requireContext(), listCard)
+        //recyclerViewCard.adapter = cardAdapter
+
+        recyclerViewCard = binding?.cardRecyclerView!!
+        recyclerViewCard.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+
+
+        viewLifecycleOwner.lifecycleScope.launch() {
+            sharedViewModel.cardList.observe(viewLifecycleOwner, Observer {
+                cardAdapter = CardAdapter(requireContext(), it)
+                recyclerViewCard.adapter = cardAdapter
+            })
+        }
+
         return root
 
     }
@@ -91,7 +112,6 @@ class HomeFragment : Fragment() {
         }
 
 
-        
 
 
         init()
@@ -111,28 +131,50 @@ class HomeFragment : Fragment() {
         recyclerViewService.adapter = serviceAdapter
 
 
-        recyclerViewCard = binding?.cardRecyclerView!!
-        recyclerViewCard.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        //val listCard = ArrayList<Card>()
+        //listCard.add(Card("master", ACCOUNT.number, "02/25", sharedViewModel.user.value?.user!!.balance))
 
-        val listCard = ArrayList<Card>()
-        listCard.add(Card("master", ACCOUNT.number, "02/25", ACCOUNT.user.balance))
-
-        val cardAdapter = CardAdapter(requireContext(), listCard)
-        recyclerViewCard.adapter = cardAdapter
 
         transactionRecyclerView = binding?.transactionRecyclerView!!
         transactionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
 
-        val operationAdapter = OperationAdapter{}
+        val transactionAdapter = TransactionAdapter{}
 
-        transactionRecyclerView.adapter = operationAdapter
+        transactionRecyclerView.adapter = transactionAdapter
 
         viewLifecycleOwner.lifecycleScope.launch(){
             sharedViewModel.getOperationsAll(ACCOUNT.number).collect(){ it ->
-                operationAdapter.submitList(it.sortedByDescending { it.time }.take(2))
+                transactionAdapter.submitList(createSortedList(it)?.take(2))
             }
+
         }
+
+
+    }
+
+    private fun createSortedList(operationList: List<Operation>) : MutableList<BaseItem>?{
+        //сразу идет соортировка в порядке убывания sortedByDescending
+        val operationsItems = operationList.map { TransactionsItem(it, TransactionAdapter.FIRST_ELEMENT) }.sortedByDescending{ it.operation.time }
+
+        val transactions = mutableListOf<BaseItem>()
+
+        for(element in operationList.indices){
+            if(element % 2 != 0){
+                transactions.add(TransactionsItem(operationsItems[element].operation, TransactionAdapter.LAST_ELEMENT))
+            }
+
+            transactions.add(TransactionsItem(operationsItems[element].operation, TransactionAdapter.FIRST_ELEMENT))
+
+        }
+
+        return  transactions
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
 
 
     }

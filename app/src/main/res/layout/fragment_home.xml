@@ -251,7 +251,6 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/transactionRecyclerView"
-                    android:background="@drawable/border_card_block"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"

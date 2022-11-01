@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_bottom"
+        android:background="@drawable/operation_item_simple"
 
         android:clickable="true"
         android:padding="20dp"

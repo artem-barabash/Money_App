@@ -24,6 +24,10 @@ import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUN
 import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.adapter.OperationAdapter
 import com.example.moneyapp.presentation.adapter.TransactionAdapter
+import com.example.moneyapp.presentation.adapter.TransactionAdapter.Companion.FIRST_ELEMENT
+import com.example.moneyapp.presentation.adapter.TransactionAdapter.Companion.LAST_ELEMENT
+import com.example.moneyapp.presentation.adapter.TransactionAdapter.Companion.SIMPLE_ELEMENT
+import com.example.moneyapp.presentation.adapter.TransactionAdapter.Companion.SINGLE_ELEMENT
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 import com.google.firebase.database.*
@@ -126,13 +130,13 @@ class OperationFragment(private val selectedCategory: String) : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createListGroupByDay(operationList: List<Operation>): MutableList<BaseItem>? {
         //сразу идет соортировка в порядке убывания sortedByDescending
-        val operationsItems = operationList.map { TransactionsItem(it) }.sortedByDescending{ it.operation.time }
+        val operationsItems = operationList.map { TransactionsItem(it, SIMPLE_ELEMENT) }.sortedByDescending{ it.operation.time }
 
         val transactionsWithHeaders = mutableListOf<BaseItem>()
 
         var currentHeader:String? = null
 
-        operationsItems.forEach { element ->
+        /*operationsItems.forEach { element ->
             element.operation.time.let { it ->
                 if(it.split(" ")[0] != currentHeader){
                     transactionsWithHeaders.add(HeaderItem(it.split(" ")[0]))
@@ -142,6 +146,39 @@ class OperationFragment(private val selectedCategory: String) : Fragment() {
 
 
             transactionsWithHeaders.add(element)
+        }*/
+
+        var headerIndex = 0
+
+        var count = 0;
+
+        val tempListSize = operationsItems.size - 1
+
+        for(i in 0 until  tempListSize){
+            operationsItems[i].operation.time.let { it ->
+                if(it.split(" ")[0] != currentHeader){
+                    transactionsWithHeaders.add(HeaderItem(it.split(" ")[0]))
+                    currentHeader = it.split(" ")[0]
+
+                    headerIndex = i
+                    count = 0
+                }
+
+            }
+
+          if(count == 0 && operationsItems[i].operation.time.split(" ")[0] != operationsItems[i + 1].operation.time.split(" ")[0] ){
+                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, SINGLE_ELEMENT))
+            } else if(i == headerIndex){
+                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, FIRST_ELEMENT))
+                headerIndex = 0
+            }else if(operationsItems[i].operation.time.split(" ")[0] != operationsItems[i + 1].operation.time.split(" ")[0] || i == tempListSize - 1){
+                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, LAST_ELEMENT))
+            }else{
+                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, SIMPLE_ELEMENT))
+            }
+
+            count++
+
         }
 
         return  transactionsWithHeaders
