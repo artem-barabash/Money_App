@@ -105,7 +105,7 @@
     <string name="amount_txt">Amount</string>
     <string name="purpose_txt">Purpose</string>
     <string name="send_btn_txt">Send</string>
-    
+
     <string name="recipient_number">Enter recipient number:</string>
     <string name="failure_user">User\'s number is wrong!</string>
 
@@ -117,5 +117,13 @@
         <item>Transfer to card</item>
     </string-array>
 
+
+    <!-- Successful fragment-->
+
+    <string name="recipient_number_title">Recipient\'s number</string>
+    <string name="transaction_successful">Transaction Successful</string>
+    <string name="detail_transaction">Detail Transaction</string>
+    <string name="share_receipt">Share Receipt</string>
+    <string name="btn_done">Done</string>
 
 </resources>

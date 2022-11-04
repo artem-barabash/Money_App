@@ -1,15 +1,14 @@
 package com.example.moneyapp.presentation.viewmodel
 
-import android.provider.Settings.System.getString
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.example.moneyapp.data.FireBaseManager
+import com.example.moneyapp.data.FireBaseManager.Companion.COUNT_OPERATION
 import com.example.moneyapp.data.room.OperationDao
 import com.example.moneyapp.domain.constant.Message
 import com.example.moneyapp.domain.entities.Card
 import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.Person
+import com.example.moneyapp.domain.use_cases.SingleTransactionFactory
 import com.example.moneyapp.domain.use_cases.UserAccount
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
 import com.google.firebase.database.*
@@ -31,12 +30,8 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
         NumberFormat.getCurrencyInstance(Locale("en", "US")).format(it)
     }
 
-    private var countOperation = 0
-
     private val _recipient = MutableLiveData<String?>()
     val recipient: LiveData<String?> = _recipient
-
-
 
     private val _cardList = MutableLiveData<List<Card?>>()
     val cardList: LiveData<List<Card?>> = _cardList
@@ -45,7 +40,7 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
     private val listCard = ArrayList<Card?>()
 
-    private var getData: Boolean = false
+    private val fireBaseManager = FireBaseManager()
 
     init {
         _user.value = userAccount
@@ -72,15 +67,16 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
 
     fun addOperationFromFireBaseToRoom(){
-        if(!getData){
+        if(!GET_DATA){
             CoroutineScope(Dispatchers.IO).launch {
                 //before delete last operations
 
                 operationDao.deleteAllRows()
 
-                retrievedOperationsFromFireBase("receive")
-                retrievedOperationsFromFireBase("send")
-                getData = true
+                retrievedOperationsFromFireBase(SEND)
+                retrievedOperationsFromFireBase(RECEIVE)
+
+                GET_DATA = true
             }
         }
 
@@ -88,57 +84,9 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     }
 
     private fun retrievedOperationsFromFireBase(q: String) {
+        val number: String = user.value?.number ?: ""
 
-
-            val number: String = user.value?.number ?: ""
-
-            databaseReference = FirebaseDatabase.getInstance().reference
-            val operationRef = databaseReference.child("Operation")
-
-
-
-            operationRef.orderByChild(q).equalTo(number)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-
-                        if (snapshot!!.exists()) {
-                            val list = ArrayList<Operation>()
-
-                            for (h in snapshot.children) {
-
-                                val sum: Any? = h.child("sum").value
-
-                                val nSum: Double = if (sum != null && sum.toString() != "0") {
-                                    sum.toString().toDouble()
-                                } else 0.0
-
-
-                                val operation = Operation(
-                                    countOperation,
-                                    h.child("send").getValue(String::class.java)!!,
-                                    h.child("receive").getValue(String::class.java)!!,
-                                    h.child("time").getValue(String::class.java)!!,
-                                    nSum
-                                )
-
-                                list.add(operation)
-                                countOperation++
-                            }
-
-                            CoroutineScope(Dispatchers.IO).launch {
-                                operationDao.insertAll(list)
-                                getData = true
-                            }
-
-
-                        }
-
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        error.toException()
-                    }
-                })
+        fireBaseManager.retrieveOperations(q, number, operationDao)
 
     }
 
@@ -162,11 +110,12 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     fun checkNumberInFirebase(number: String){
         databaseReference = FirebaseDatabase.getInstance().reference.child("User")
 
-        val currentNumber = if(number.length != 19) number  else number.trim()
+        val currentNumber = if(number.length != 19) number  else number.replace(" ", "")
 
-        if(currentNumber != ACCOUNT.number.trim()){
+        if(currentNumber != ACCOUNT.number.replace(" ", "")){
             val query:Query = databaseReference.orderByKey().equalTo(currentNumber)
 
+            var n = 0
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -181,10 +130,12 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
                                 itemSnapshot.child("lastName").getValue(String::class.java)!!
 
                             val recipientPerson = Person(
+                                n,
                                 numberRecipient.toString(),
                                 firstNameRecipient,
                                 lastNameRecipient
                             )
+                            n++
 
                             _recipient.value =
                                 showCardNumber(recipientPerson.number) + " - \n" + recipientPerson.firstName + " " + recipientPerson.lastName
@@ -210,37 +161,44 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     }
 
     fun sendToRecipient(sumTransaction: Double) {
-        if(recipient.value != Message.noCorrectRecipientNumber || recipient.value != ""){
-            _balance.value = _user.value?.user?.balance?.minus(sumTransaction)!!
 
-            ACCOUNT.user.balance -= sumTransaction
+        _balance.value = _user.value?.user?.balance?.minus(sumTransaction)!!
 
-            countOperation++
+        ACCOUNT.user.balance -= sumTransaction
 
-            CoroutineScope(Dispatchers.IO).launch {
+        COUNT_OPERATION++
 
-                val date = Date()
-                val timestamp = Timestamp(date.time)
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val date = Date()
+            val timestamp = Timestamp(date.time)
 
                 //TODO
                 //1.номер в базу вноситься не корректно
                 //2.привозвращение на Home данные из Firebase заново вносяться, и не видно новой операции
 
-                val otherNumber = _recipient.value.toString().trim().split("-")[0]
+            val otherNumber = _recipient.value.toString().split("-")[0].replace(" ", "")
 
-                val operation = Operation(
-                    countOperation,
-                    ACCOUNT.number,
-                    otherNumber,
-                    timestamp.toString(),
-                    sumTransaction
-                )
+            val operation = Operation(
+                COUNT_OPERATION,
+                ACCOUNT.number,
+                otherNumber,
+                timestamp.toString(),
+                sumTransaction
+            )
 
-                operationDao.insertOperation(operation)
-            }
+            operationDao.insertOperation(operation)
 
-            println("ACCOUNT = $ACCOUNT")
+            SingleTransactionFactory(operation)
+
         }
+    }
+
+    companion object{
+        const val RECEIVE : String = "receive"
+        const val SEND : String = "send"
+
+        var GET_DATA: Boolean = false
     }
 
 }

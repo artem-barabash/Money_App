@@ -2,6 +2,7 @@ package com.example.moneyapp.data.room
 
 import androidx.room.*
 import com.example.moneyapp.domain.entities.Operation
+import com.example.moneyapp.domain.entities.Person
 import kotlinx.coroutines.flow.Flow
 
 
@@ -28,4 +29,10 @@ interface OperationDao {
 
     @Insert
     fun insertOperation(operation: Operation)
+
+
+    /*@Insert(onConflict = OnConflictStrategy.REPLACE)
+    @JvmSuppressWildcards
+    fun insertAllPersons(listOperation: List<Person>)*/
+
 }

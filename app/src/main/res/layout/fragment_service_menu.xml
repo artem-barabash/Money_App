@@ -13,13 +13,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/service_menu_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/item_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/operation_item_simple"
+            android:background="@drawable/border_bottom"
             android:clickable="true"
             android:onClick="@{() -> fragment.enterToShowStatement()}"
             android:padding="20dp"
@@ -79,7 +80,7 @@
             android:id="@+id/item_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/operation_item_simple"
+            android:background="@drawable/border_bottom"
             android:clickable="true"
             android:onClick="@{() -> fragment.enterToChangePinCode()}"
             android:padding="20dp"
@@ -138,9 +139,8 @@
             android:id="@+id/item_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> fragment.enterToRemoveCard()}"
-            android:background="@drawable/operation_item_simple"
             android:clickable="true"
+            android:onClick="@{() -> fragment.enterToRemoveCard()}"
             android:padding="20dp"
             android:paddingBottom="15dp"
             app:layout_constraintEnd_toEndOf="parent"

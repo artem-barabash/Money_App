@@ -25,7 +25,7 @@ data class Operation(
         return tm1.compareTo(tm2)
     }
 
-    private fun correctDateAndTime(time: String): String? {
+    fun correctDateAndTime(time: String): String? {
         return if (time.substring(time.indexOf('.') + 1).length != 3) time + "0" else time
     }
 

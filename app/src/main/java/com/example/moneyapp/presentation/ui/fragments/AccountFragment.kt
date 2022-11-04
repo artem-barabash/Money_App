@@ -1,5 +1,7 @@
 package com.example.moneyapp.presentation.ui.fragments
 
+import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,13 +36,13 @@ class AccountFragment : Fragment() {
     private var showNumber: Boolean = false
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
     }
 
     override fun onCreateView(
@@ -91,6 +93,7 @@ class AccountFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
     }
 
 }

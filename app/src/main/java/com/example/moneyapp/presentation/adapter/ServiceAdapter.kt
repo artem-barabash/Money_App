@@ -34,6 +34,7 @@ class ServiceAdapter(
             val fragmentManager = (context as AppCompatActivity).supportFragmentManager
             val transactionFragment = fragmentManager.beginTransaction()
 
+
             if(dataset[position].nameId == R.string.service_transfer){
                 transactionFragment.replace(R.id.fl_layout, TransferFragment())
 

@@ -4,9 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.283" />
-        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/border_bottom.xml" value="0.25" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/border_bottom.xml" value="0.5" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/border_btn_send.xml" value="0.276" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/border_card_block.xml" value="0.5" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/border_done_btn.xml" value="0.267" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/border_radius.xml" value="0.2635" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/border_radius_2.xml" value="0.283" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/box_item.xml" value="0.276" />
@@ -29,6 +30,7 @@
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/ic_profile.xml" value="0.283" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/ic_received.xml" value="0.283" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/ic_settings.xml" value="0.276" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/ic_success_icon.xml" value="0.234" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/ic_view_card.xml" value="0.25" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/operation_item_down.xml" value="0.22" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/operation_item_simple.xml" value="0.268" />
@@ -37,6 +39,7 @@
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/selected_dot.xml" value="0.283" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/selected_item_menu.xml" value="0.283" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/selected_view_pager_tab.xml" value="0.283" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/service_menu_container.xml" value="0.268" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/tab_selector.xml" value="0.283" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/transfer_block.xml" value="0.183" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/drawable/view_pager_tab.xml" value="0.67" />
@@ -53,7 +56,8 @@
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_operation.xml" value="0.32916666666666666" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_operations.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_registration.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_service_menu.xml" value="0.2995260663507109" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_service_menu.xml" value="0.5" />
+        <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_successful.xml" value="0.33" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_tranfer.xml" value="0.1935185185185185" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_transaction_list.xml" value="0.5" />
         <entry key="..\:/Users/Artem/AndroidStudioProjects/MoneyApp/app/src/main/res/layout/fragment_transaction_tab_list.xml" value="0.16458333333333333" />

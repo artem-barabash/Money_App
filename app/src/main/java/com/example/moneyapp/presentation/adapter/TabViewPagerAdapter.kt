@@ -14,10 +14,12 @@ class TabViewPagerAdapter(fragment: Fragment, private val fragmentsList: Array<S
     }
 
     override fun createFragment(position: Int): Fragment {
-        when(position){
+         return when(position){
             0 -> {ServiceMenuFragment()}
-            1 -> TransactionsTabListFragment()
-        }
-        return ServiceMenuFragment()
+            1 -> {TransactionsTabListFragment()}
+             else -> {
+                 ServiceMenuFragment()
+             }
+         }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.moneyapp.presentation.ui.fragments
 
+import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.activityViewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.example.moneyapp.R
 import com.example.moneyapp.databinding.FragmentTransactionListBinding
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
@@ -25,6 +28,9 @@ class TransactionListFragment : Fragment() {
 
     private val labels = arrayOf("All", "Income", "Expense")
 
+    private lateinit var tabLayoutFragments: TabLayout
+
+    private lateinit var viewPagerFragments: ViewPager2
 
 
 
@@ -35,11 +41,10 @@ class TransactionListFragment : Fragment() {
         )
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,8 +65,8 @@ class TransactionListFragment : Fragment() {
             fragment = this@TransactionListFragment
         }
 
-        val tabLayoutFragments = binding?.tabLayoutTransactions
-        val viewPagerFragments = binding?.viewPagerTabTransaction
+        tabLayoutFragments = binding?.tabLayoutTransactions!!
+        viewPagerFragments = binding?.viewPagerTabTransaction!!
 
         val tabViewOperationsAdapter = TabViewOperationsAdapter(this, labels)
         viewPagerFragments?.adapter = tabViewOperationsAdapter
@@ -77,6 +82,7 @@ class TransactionListFragment : Fragment() {
 
         setMarginToTabs(tabLayoutFragments)
 
+
     }
 
 
@@ -91,6 +97,7 @@ class TransactionListFragment : Fragment() {
 
         tabLayout.getTabAt(1)?.setIcon(R.drawable.ic_income_arrow)
         tabLayout.getTabAt(2)?.setIcon(R.drawable.ic_expense__arrow)
+
 
     }
 

@@ -22,7 +22,6 @@ import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.TransactionsItem
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
 import com.example.moneyapp.domain.use_cases.UserDataApplication
-import com.example.moneyapp.presentation.adapter.OperationAdapter
 import com.example.moneyapp.presentation.adapter.TransactionAdapter
 import com.example.moneyapp.presentation.adapter.TransactionAdapter.Companion.FIRST_ELEMENT
 import com.example.moneyapp.presentation.adapter.TransactionAdapter.Companion.LAST_ELEMENT
@@ -45,7 +44,7 @@ import kotlin.collections.ArrayList
  * Use the [OperationFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class OperationFragment(private val selectedCategory: String) : Fragment() {
+class OperationFragment(val selectedCategory: String) : Fragment() {
 
     private var _binding: FragmentOperationBinding? = null
 
@@ -58,6 +57,7 @@ class OperationFragment(private val selectedCategory: String) : Fragment() {
         )
     }
 
+
     lateinit var recyclerView: RecyclerView
 
     val list = ArrayList<Operation>()
@@ -65,6 +65,7 @@ class OperationFragment(private val selectedCategory: String) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 

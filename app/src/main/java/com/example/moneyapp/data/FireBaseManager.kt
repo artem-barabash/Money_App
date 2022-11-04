@@ -1,18 +1,17 @@
 package com.example.moneyapp.data
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Context.MODE_APPEND
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.moneyapp.data.room.OperationDao
 import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.User
 import com.example.moneyapp.domain.use_cases.UserAccount
-import com.example.moneyapp.presentation.ui.LoginActivity
-import com.example.moneyapp.presentation.ui.LoginActivity.Companion.TEMP_USER_DATA
+import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.GET_DATA
+import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.RECEIVE
 import com.google.firebase.database.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FireBaseManager {
@@ -75,8 +74,79 @@ class FireBaseManager {
         return sb.toString()
     }
 
+    fun retrieveOperations(query: String, number: String, operationDao: OperationDao){
+        val operationRef = databaseReference.child("Operation")
+
+
+        operationRef.orderByChild(query).equalTo(number)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    if (snapshot!!.exists()) {
+                        val list = java.util.ArrayList<Operation>()
+
+                        for (h in snapshot.children) {
+
+                            val sum: Any? = h.child("sum").value
+
+                            val nSum: Double = if (sum != null && sum.toString() != "0") {
+                                sum.toString().toDouble()
+                            } else 0.0
+
+
+                            val operation = Operation(
+                                COUNT_OPERATION,
+                                h.child("send").getValue(String::class.java)!!,
+                                h.child("receive").getValue(String::class.java)!!,
+                                h.child("time").getValue(String::class.java)!!,
+                                nSum
+                            )
+
+                            list.add(operation)
+                            COUNT_OPERATION++
+                        }
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            operationDao.insertAll(list)
+                            if(query == RECEIVE){
+                                getPersonsFromBase(operationDao, list)
+                            }
+                            GET_DATA = true
+                        }
+
+
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    error.toException()
+                }
+            })
+    }
+
+    private fun getPersonsFromBase(operationDao: OperationDao, list: ArrayList<Operation>) {
+        val operationHashSet = HashSet<String>()
+
+        for(i in list){
+            operationHashSet.add(i.send)
+        }
+
+        val usersRef: DatabaseReference = databaseReference.child("User")
+
+        var iterator = operationHashSet.iterator()
+
+        while (iterator.hasNext()){
+            println(iterator.next())
+        }
+
+
+    }
+
     companion object{
         var userNumber: String = ""
+
+        var COUNT_OPERATION = 0
     }
 
 

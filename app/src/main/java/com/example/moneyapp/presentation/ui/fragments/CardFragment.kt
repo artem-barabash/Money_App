@@ -1,5 +1,7 @@
 package com.example.moneyapp.presentation.ui.fragments
 
+import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +38,10 @@ class CardFragment : Fragment() {
 
     private val labels = arrayOf("Settings", "Transactions")
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,6 +140,7 @@ class CardFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
     }
 
     companion object {

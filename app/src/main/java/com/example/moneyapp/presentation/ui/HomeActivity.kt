@@ -1,12 +1,15 @@
 package com.example.moneyapp.presentation.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.browser.trusted.ScreenOrientation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.moneyapp.databinding.ActivityHomeBinding
 import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.User
@@ -27,10 +30,7 @@ import com.google.firebase.database.*
 import com.example.moneyapp.R
 import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.domain.use_cases.UserDataApplication
-import com.example.moneyapp.presentation.ui.fragments.AccountFragment
-import com.example.moneyapp.presentation.ui.fragments.CardFragment
-import com.example.moneyapp.presentation.ui.fragments.HomeFragment
-import com.example.moneyapp.presentation.ui.fragments.TransactionListFragment
+import com.example.moneyapp.presentation.ui.fragments.*
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 
@@ -38,19 +38,36 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var sharedPreferences: SharedPreferences
 
+    private var page = 0
 
+    private var pageIndex = -1
+
+    private lateinit var sharedPreferencesPage: SharedPreferences
 
 
     @SuppressLint("WrongConstant", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        super.onCreate(savedInstanceState)
+
+
+
+
+        if(savedInstanceState != null){
+
+            page = savedInstanceState.getInt(KEY_PAGE, 0)
+            //changePage(page)
+        }
+
+
+
         sharedPreferences = this.getSharedPreferences(TEMP_USER_DATA, MODE_PRIVATE)
+
+        sharedPreferencesPage = this.getSharedPreferences(
+            KEY_PAGE_INDEX_CACHE, MODE_PRIVATE)
 
         val nBalance: String? = sharedPreferences.getString(BALANCE, "")
 
@@ -67,7 +84,9 @@ class HomeActivity : AppCompatActivity() {
             sharedPreferences.getString(EMAIL, "").toString(),
             sharedPreferences.getString(BIRTHDAY, "").toString(),
             sharedPreferences.getString(GENDER, "").toString(),
-            sharedPreferences.getString(HOME_ADDRESS, "").toString(), balance)
+            sharedPreferences.getString(HOME_ADDRESS, "").toString(),
+            balance
+        )
 
         val numberKey = sharedPreferences.getString(NUMBER_KEY, "").toString()
         val password = sharedPreferences.getString(PASSWORD, "").toString()
@@ -78,29 +97,78 @@ class HomeActivity : AppCompatActivity() {
         val userAccount = UserAccount(numberKey, password, imageLink, user, list)
         UserAccountFactory(userAccount)
 
-        replaceFragment(HomeFragment())
+
+
+
+        //replaceFragment(HomeFragment())
+        changePage(page)
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
-            var selectedFragment : Fragment = HomeFragment()
+
 
             when (it.itemId){
-
-                R.id.itemHome -> {selectedFragment = HomeFragment()}
-                R.id.itemCard -> {selectedFragment = CardFragment()}
-                R.id.itemTransactions -> {selectedFragment = TransactionListFragment()}
-                R.id.itemProfile -> {selectedFragment = AccountFragment()}
+                R.id.itemHome -> {page = 0}
+                R.id.itemCard -> {page = 1}
+                R.id.itemTransactions -> {page = 2}
+                R.id.itemProfile -> {page = 3}
             }
 
-            replaceFragment(selectedFragment)
+            //val selectedFragment : Fragment = fragmentList[page]
+            changePage(page)
+
+
+            //replaceFragment(selectedFragment)
 
             return@setOnItemSelectedListener true
         }
     }
 
-    private fun replaceFragment(selectedFragment: Fragment){
+    private fun changePage(changedPage:Int){
+        when(changedPage){
+            0 -> replaceFragment(HomeFragment())
+            1 -> replaceFragment(CardFragment())
+            2 -> replaceFragment(TransactionListFragment())
+            3 -> replaceFragment(AccountFragment())
+            4 -> replaceFragment(TransferFragment())
+        }
+    }
+
+    private fun replaceFragment(selected: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fl_layout, selectedFragment)
+
+
+        transaction.replace(R.id.fl_layout, selected)
         transaction.commit()
+    }
+
+    @SuppressLint("CommitPrefEdits", "ApplySharedPref")
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+
+        /*pageIndex = sharedPreferencesPage.getInt(KEY_PAGE_INDEX, -1)
+
+        if(pageIndex != -1){
+            outState.putInt(KEY_PAGE, pageIndex)
+            pageIndex = -1
+
+            sharedPreferencesPage.edit().clear().commit()
+        }else{
+            outState.putInt(KEY_PAGE, page)
+        }*/
+
+        outState.putInt(KEY_PAGE, page)
+
+    }
+
+
+
+    companion object {
+        const val KEY_PAGE = "key_page"
+
+        const val KEY_PAGE_INDEX_CACHE = "key_page_index_cache"
+
+        const val KEY_PAGE_INDEX = "key_page_index"
     }
 
 }
