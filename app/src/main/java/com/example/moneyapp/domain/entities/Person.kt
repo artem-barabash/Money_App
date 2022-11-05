@@ -9,9 +9,11 @@ data class Person(
     @PrimaryKey(autoGenerate = true)
     val Id:Int,
     @ColumnInfo(name = "person_number")
-    val number: String,
+    val number: String?,
     @ColumnInfo(name = "first_name")
     val firstName: String,
     @ColumnInfo(name = "last_name")
-    val lastName:String
+    val lastName:String,
+    @ColumnInfo(name = "status")
+    val status:String
     )

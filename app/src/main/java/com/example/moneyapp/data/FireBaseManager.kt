@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.moneyapp.data.room.OperationDao
 import com.example.moneyapp.domain.entities.Operation
+import com.example.moneyapp.domain.entities.Person
 import com.example.moneyapp.domain.entities.User
 import com.example.moneyapp.domain.use_cases.UserAccount
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.GET_DATA
@@ -16,9 +17,11 @@ import kotlinx.coroutines.launch
 
 class FireBaseManager {
 
-    private val databaseReference: DatabaseReference= FirebaseDatabase.getInstance().reference
+    private var databaseReference: DatabaseReference= FirebaseDatabase.getInstance().reference
 
     private val num:Int = 4
+
+    private var COUNT_ROWS = 1
 
     fun addUser(user: User, password: String){
         val usersRef: DatabaseReference = databaseReference.child("User")
@@ -108,9 +111,9 @@ class FireBaseManager {
 
                         CoroutineScope(Dispatchers.IO).launch {
                             operationDao.insertAll(list)
-                            if(query == RECEIVE){
-                                getPersonsFromBase(operationDao, list)
-                            }
+                            //if(query == RECEIVE){
+                                getPersonsFromBase(operationDao, list, query)
+                            //}
                             GET_DATA = true
                         }
 
@@ -125,28 +128,105 @@ class FireBaseManager {
             })
     }
 
-    private fun getPersonsFromBase(operationDao: OperationDao, list: ArrayList<Operation>) {
-        val operationHashSet = HashSet<String>()
+    private fun getPersonsFromBase(operationDao: OperationDao, list: ArrayList<Operation>, queryDB: String) {
+        var operationHashSet = HashSet<String>()
 
-        for(i in list){
-            operationHashSet.add(i.send)
-        }
+       if(queryDB == RECEIVE){
+           for (i in list){
+               operationHashSet.add(i.send)
+           }
+       }else{
+           for (i in list){
+               operationHashSet.add(i.receive)
+           }
+       }
+
+
 
         val usersRef: DatabaseReference = databaseReference.child("User")
 
         var iterator = operationHashSet.iterator()
 
-        while (iterator.hasNext()){
-            println(iterator.next())
+
+
+
+
+        val personList = ArrayList<Person>()
+        while (iterator.hasNext()) {
+            usersRef.orderByKey().equalTo(iterator.next())
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            for(itemSnapshot in snapshot.children){
+                                val numberRecipient = itemSnapshot.key
+                                val firstNameRecipient =
+                                    itemSnapshot.child("firstName").getValue(String::class.java)!!
+                                val lastNameRecipient =
+                                    itemSnapshot.child("lastName").getValue(String::class.java)!!
+
+                                val person = Person(
+                                    COUNT_ROWS,
+                                    numberRecipient,
+                                    firstNameRecipient,
+                                    lastNameRecipient,
+                                    queryDB)
+                                COUNT_ROWS++
+                                personList.add(person)
+                            }
+                        }
+
+                        operationDao.insertAllPersons(personList)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        error.toException()
+                    }
+                })
+
         }
+    }
 
+    fun addOperation(operation: Operation) {
+        val operationsRef = databaseReference.child("Operation")
 
+        updateBalanceUser(operation.send, operation.sum, false)
+
+        operationsRef.child(operation.send + "-"+ operation.time.replace('.', ',')).setValue(operation)
+
+        updateBalanceUser(operation.receive, operation.sum, true)
+    }
+
+    private fun updateBalanceUser(number: String, sum: Double, operation: Boolean) {
+        databaseReference = FirebaseDatabase.getInstance().reference
+        val userRef = databaseReference.child("User")
+        val query = userRef.orderByKey().equalTo(number)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (itemSnapshot in snapshot.children) {
+
+                    var balance = itemSnapshot.child("balance").getValue(
+                        Double::class.java
+                    )!!
+                    if (operation) {
+                        balance += sum
+                    } else {
+                        balance -= sum
+                    }
+                    userRef.child(number).child("balance")
+                        .setValue(Math.round(balance * 100.00) / 100.00)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                throw error.toException()
+            }
+        })
     }
 
     companion object{
         var userNumber: String = ""
 
-        var COUNT_OPERATION = 0
+        var COUNT_OPERATION = 1
     }
 
 

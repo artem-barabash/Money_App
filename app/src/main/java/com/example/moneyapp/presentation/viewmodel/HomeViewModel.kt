@@ -50,6 +50,8 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
         _recipient.value = ""
 
         initCardList()
+
+        addOperationFromFireBaseToRoom()
     }
 
     private fun initCardList(){
@@ -66,18 +68,21 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     }
 
 
-    fun addOperationFromFireBaseToRoom(){
-        if(!GET_DATA){
+    private fun addOperationFromFireBaseToRoom(){
+        //if(!GET_DATA){
             CoroutineScope(Dispatchers.IO).launch {
                 //before delete last operations
 
-                operationDao.deleteAllRows()
+                operationDao.deleteAllOperationsRows()
+                operationDao.deleteAllPersonsRows()
 
                 retrievedOperationsFromFireBase(SEND)
                 retrievedOperationsFromFireBase(RECEIVE)
 
+                //operationDao.deleteSimilarElementsFromPersons()
+
                 GET_DATA = true
-            }
+            //}
         }
 
 
@@ -97,12 +102,14 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
     fun getOperationsExpense(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserExpense(number)
 
-    fun showCardNumber(number: String): String? {
-        val arrNumber = number.split("".toRegex()).toTypedArray()
+    fun showCardNumber(number: String?): String? {
+        val arrNumber = number?.split("".toRegex())?.toTypedArray()
         val sb = StringBuilder()
-        for (i in arrNumber.indices) {
-            sb.append(arrNumber[i])
-            if (i % 4 == 0 && i != arrNumber.size - 1) sb.append(" ")
+        if (arrNumber != null) {
+            for (i in arrNumber.indices) {
+                sb.append(arrNumber[i])
+                if (i % 4 == 0 && i != arrNumber.size - 1) sb.append(" ")
+            }
         }
         return sb.toString()
     }
@@ -133,7 +140,8 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
                                 n,
                                 numberRecipient.toString(),
                                 firstNameRecipient,
-                                lastNameRecipient
+                                lastNameRecipient,
+                                ""
                             )
                             n++
 
@@ -188,6 +196,8 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
             )
 
             operationDao.insertOperation(operation)
+
+            fireBaseManager.addOperation(operation)
 
             SingleTransactionFactory(operation)
 

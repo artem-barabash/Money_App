@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        sharedViewModel.addOperationFromFireBaseToRoom()
+        //sharedViewModel.addOperationFromFireBaseToRoom()
     }
 
     @SuppressLint("NotifyDataSetChanged")

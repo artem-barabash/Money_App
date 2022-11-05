@@ -30,6 +30,7 @@ import com.example.moneyapp.presentation.ui.HomeActivity.Companion.KEY_PAGE
 import com.example.moneyapp.presentation.ui.HomeActivity.Companion.KEY_PAGE_INDEX
 import com.example.moneyapp.presentation.ui.HomeActivity.Companion.KEY_PAGE_INDEX_CACHE
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
+import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.RECEIVE
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -113,8 +114,8 @@ class TransferFragment : Fragment()  {
         personRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         val persons = ArrayList<Person>()
-        persons.add(Person(1,"000", "Ivan", "Ivan"))
-        persons.add(Person(2,"000", "Pedro", "Pedro"))
+        persons.add(Person(1,"000", "Ivan", "Ivan", RECEIVE))
+        persons.add(Person(2,"000", "Pedro", "Pedro", RECEIVE))
 
         personRecyclerView.adapter = PersonAdapter(requireContext(), persons)
 
