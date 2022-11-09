@@ -86,7 +86,7 @@ class TransactionsTabListFragment : Fragment() {
         recyclerViewOperations.adapter = transactionAdapter
 
         lifecycleScope.launch {
-            sharedViewModel.getOperationsAll(number = number).collect(){it ->
+            sharedViewModel.getOperationsAll().collect(){it ->
                 transactionAdapter.submitList(createListWithThreeItems(it)?.take(3))
             }
         }
@@ -97,10 +97,17 @@ class TransactionsTabListFragment : Fragment() {
         val operationsItems = list.map { TransactionsItem(it, TransactionAdapter.FIRST_ELEMENT) }.sortedByDescending{ it.operation.time }
 
         val transactions = mutableListOf<BaseItem>()
+        if(operationsItems.size >=3){
+            transactions.add(TransactionsItem(operationsItems[0].operation, TransactionAdapter.FIRST_ELEMENT))
+            transactions.add(TransactionsItem(operationsItems[1].operation, TransactionAdapter.SIMPLE_ELEMENT))
+            transactions.add(TransactionsItem(operationsItems[2].operation, TransactionAdapter.LAST_ELEMENT))
+        }else if(operationsItems.size == 2){
+            transactions.add(TransactionsItem(operationsItems[0].operation, TransactionAdapter.FIRST_ELEMENT))
+            transactions.add(TransactionsItem(operationsItems[1].operation, TransactionAdapter.LAST_ELEMENT))
+        }else if(operationsItems.size == 1){
+            transactions.add(TransactionsItem(operationsItems[0].operation, TransactionAdapter.SINGLE_ELEMENT))
+        }
 
-        transactions.add(TransactionsItem(operationsItems[0].operation, TransactionAdapter.FIRST_ELEMENT))
-        transactions.add(TransactionsItem(operationsItems[1].operation, TransactionAdapter.SIMPLE_ELEMENT))
-        transactions.add(TransactionsItem(operationsItems[2].operation, TransactionAdapter.LAST_ELEMENT))
 
         return transactions
     }

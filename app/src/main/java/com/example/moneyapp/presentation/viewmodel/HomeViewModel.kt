@@ -3,6 +3,7 @@ package com.example.moneyapp.presentation.viewmodel
 import androidx.lifecycle.*
 import com.example.moneyapp.data.FireBaseManager
 import com.example.moneyapp.data.FireBaseManager.Companion.COUNT_OPERATION
+import com.example.moneyapp.data.FireBaseManager.Companion.COUNT_ROWS
 import com.example.moneyapp.data.room.OperationDao
 import com.example.moneyapp.domain.constant.Message
 import com.example.moneyapp.domain.entities.Card
@@ -10,10 +11,12 @@ import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.Person
 import com.example.moneyapp.domain.use_cases.SingleTransactionFactory
 import com.example.moneyapp.domain.use_cases.UserAccount
+import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
@@ -51,7 +54,9 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
         initCardList()
 
+
         addOperationFromFireBaseToRoom()
+
     }
 
     private fun initCardList(){
@@ -69,21 +74,21 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
 
     private fun addOperationFromFireBaseToRoom(){
-        //if(!GET_DATA){
-            CoroutineScope(Dispatchers.IO).launch {
-                //before delete last operations
+        CoroutineScope(Dispatchers.IO).launch {
+            //before delete last operations
 
-                operationDao.deleteAllOperationsRows()
-                operationDao.deleteAllPersonsRows()
+            operationDao.deleteAllOperationsRows()
+            operationDao.deleteAllPersonsRows()
 
-                retrievedOperationsFromFireBase(SEND)
-                retrievedOperationsFromFireBase(RECEIVE)
+            retrievedOperationsFromFireBase(SEND)
+            retrievedOperationsFromFireBase(RECEIVE)
 
-                //operationDao.deleteSimilarElementsFromPersons()
-
-                GET_DATA = true
-            //}
+            operationDao.insertPersons(
+                Person(COUNT_ROWS++, ACCOUNT.number, ACCOUNT.number,
+                    ACCOUNT.number, "current_user")
+            )
         }
+
 
 
     }
@@ -92,15 +97,15 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
         val number: String = user.value?.number ?: ""
 
         fireBaseManager.retrieveOperations(q, number, operationDao)
-
     }
 
-
-    fun getOperationsAll(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserAll(number)
+    fun getOperationsAll(): Flow<List<Operation>> = operationDao.getOperationsForUserAll()
 
     fun getOperationsIncome(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserIncome(number)
 
     fun getOperationsExpense(number: String): Flow<List<Operation>> = operationDao.getOperationsForUserExpense(number)
+
+    fun getPersons(): Flow<List<Person>> = operationDao.selectPersons()
 
     fun showCardNumber(number: String?): String? {
         val arrNumber = number?.split("".toRegex())?.toTypedArray()
@@ -168,6 +173,10 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
         _recipient.value = ""
     }
 
+    fun changePerson(person: Person){
+        _recipient.value = showCardNumber(person.number) + " - \n" + person.firstName + " " + person.lastName
+    }
+
     fun sendToRecipient(sumTransaction: Double) {
 
         _balance.value = _user.value?.user?.balance?.minus(sumTransaction)!!
@@ -207,8 +216,6 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     companion object{
         const val RECEIVE : String = "receive"
         const val SEND : String = "send"
-
-        var GET_DATA: Boolean = false
     }
 
 }

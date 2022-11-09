@@ -124,7 +124,11 @@ class LoginActivity : AppCompatActivity() {
                     val nBalance: Any? = it.child("balance").value
 
                     val balance: Double = if((nBalance != null) && (nBalance.toString() != "0")){
-                        nBalance as Double
+                        if(nBalance is Long){
+                            nBalance.toDouble()
+                        }
+                        else {
+                            nBalance as Double}
                     }else 0.0
 
 

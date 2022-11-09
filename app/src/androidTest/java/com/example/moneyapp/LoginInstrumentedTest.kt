@@ -65,6 +65,9 @@ class LoginInstrumentedTest {
 
         onView(withId(R.id.textFullUserName))
             .check(matches(withText(containsString("Fox Fox"))))
+        //
+        onView(withId(R.id.textViewBalance))
+            .check(matches(withText(containsString("$23.47"))))
     }
 
     @Test

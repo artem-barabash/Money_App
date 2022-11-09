@@ -8,8 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
 import com.example.moneyapp.domain.entities.Person
+import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 
-class PersonAdapter(val context: Context, private val personList: ArrayList<Person>): RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
+class PersonAdapter(
+    val context: Context,
+    private val personList: List<Person>,
+    private val viewModel: HomeViewModel): RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
     class PersonViewHolder(view: View): RecyclerView.ViewHolder(view){
         val namePerson:TextView = view.findViewById(R.id.textPersonName)
@@ -24,6 +28,12 @@ class PersonAdapter(val context: Context, private val personList: ArrayList<Pers
         val item = personList[position]
 
         holder.namePerson.text = item.firstName
+
+        holder.itemView.setOnClickListener {
+            viewModel.changePerson(item)
+        }
+
+
     }
 
     override fun getItemCount(): Int {

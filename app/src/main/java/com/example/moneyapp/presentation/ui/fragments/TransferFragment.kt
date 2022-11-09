@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.trusted.ScreenOrientation
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
@@ -33,6 +34,7 @@ import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.RECEIVE
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.launch
 
 
 /**
@@ -113,11 +115,13 @@ class TransferFragment : Fragment()  {
 
         personRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        val persons = ArrayList<Person>()
-        persons.add(Person(1,"000", "Ivan", "Ivan", RECEIVE))
-        persons.add(Person(2,"000", "Pedro", "Pedro", RECEIVE))
 
-        personRecyclerView.adapter = PersonAdapter(requireContext(), persons)
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.getPersons().collect(){it ->
+                personRecyclerView.adapter = PersonAdapter(requireContext(), it, sharedViewModel)
+            }
+        }
+
 
         val spinner: Spinner = binding!!.spinnerPurpose
 

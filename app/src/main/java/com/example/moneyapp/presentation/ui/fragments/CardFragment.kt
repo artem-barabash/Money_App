@@ -107,6 +107,8 @@ class CardFragment : Fragment() {
         // remove default elevation of actionbar
         //TODO NEED
 
+
+
         tabLayout?.let {
             viewPager?.let { it1 ->
                 TabLayoutMediator(it, it1){ tab, position ->
@@ -117,8 +119,10 @@ class CardFragment : Fragment() {
 
 
 
+
         setMarginToTabs(tabLayout)
 
+        //tabLayout?.getChildAt(1)?.isEnabled  = false
         //применить на TransactionListFragment
         //tabLayout?.getTabAt(0)?.setIcon(R.drawable.ic_master)
     }

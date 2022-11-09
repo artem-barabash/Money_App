@@ -44,7 +44,7 @@ import kotlin.collections.ArrayList
  * Use the [OperationFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class OperationFragment(val selectedCategory: String) : Fragment() {
+class OperationFragment(private val selectedCategory: String) : Fragment() {
 
     private var _binding: FragmentOperationBinding? = null
 
@@ -118,7 +118,7 @@ class OperationFragment(val selectedCategory: String) : Fragment() {
                     transactionAdapter.submitList(createListGroupByDay(it))
                 }
                 else ->
-                    sharedViewModel.getOperationsAll(number).collect() { it ->
+                    sharedViewModel.getOperationsAll().collect() { it ->
                     transactionAdapter.submitList(createListGroupByDay(it))
                 }
 
@@ -130,55 +130,98 @@ class OperationFragment(val selectedCategory: String) : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createListGroupByDay(operationList: List<Operation>): MutableList<BaseItem>? {
-        //сразу идет соортировка в порядке убывания sortedByDescending
-        val operationsItems = operationList.map { TransactionsItem(it, SIMPLE_ELEMENT) }.sortedByDescending{ it.operation.time }
-
         val transactionsWithHeaders = mutableListOf<BaseItem>()
 
-        var currentHeader:String? = null
+        if(operationList.isNotEmpty()) {
 
-        /*operationsItems.forEach { element ->
-            element.operation.time.let { it ->
-                if(it.split(" ")[0] != currentHeader){
-                    transactionsWithHeaders.add(HeaderItem(it.split(" ")[0]))
-                    currentHeader = it.split(" ")[0]
-                }
-            }
+            //сразу идет соортировка в порядке убывания sortedByDescending
+            val operationsItems = operationList.map { TransactionsItem(it, SIMPLE_ELEMENT) }
+                .sortedByDescending { it.operation.time }
 
 
-            transactionsWithHeaders.add(element)
-        }*/
+            var currentHeader: String? = null
 
-        var headerIndex = 0
 
-        var count = 0;
+            var headerIndex = 0
 
-        val tempListSize = operationsItems.size - 1
+            var count = 0;
 
-        for(i in 0 until  tempListSize){
-            operationsItems[i].operation.time.let { it ->
-                if(it.split(" ")[0] != currentHeader){
-                    transactionsWithHeaders.add(HeaderItem(it.split(" ")[0]))
-                    currentHeader = it.split(" ")[0]
+            val tempListSize = operationsItems.size - 1
 
-                    headerIndex = i
-                    count = 0
+            for (i in 0 until tempListSize) {
+                operationsItems[i].operation.time.let { it ->
+                    if (it.split(" ")[0] != currentHeader) {
+                        transactionsWithHeaders.add(HeaderItem(it.split(" ")[0]))
+                        currentHeader = it.split(" ")[0]
+
+                        headerIndex = i
+                        count = 0
+                    }
+
                 }
 
+                if (count == 0 && operationsItems[i].operation.time.split(" ")[0] != operationsItems[i + 1].operation.time.split(
+                        " "
+                    )[0]
+                ) {
+                    transactionsWithHeaders.add(
+                        TransactionsItem(
+                            operationsItems[i].operation,
+                            SINGLE_ELEMENT
+                        )
+                    )
+                } else if (i == headerIndex) {
+                    transactionsWithHeaders.add(
+                        TransactionsItem(
+                            operationsItems[i].operation,
+                            FIRST_ELEMENT
+                        )
+                    )
+                    headerIndex = 0
+                } else if (operationsItems[i].operation.time.split(" ")[0] != operationsItems[i + 1].operation.time.split(
+                        " "
+                    )[0]) {
+                    transactionsWithHeaders.add(
+                        TransactionsItem(
+                            operationsItems[i].operation,
+                            LAST_ELEMENT
+                        )
+                    )
+                } else {
+                    transactionsWithHeaders.add(
+                        TransactionsItem(
+                            operationsItems[i].operation,
+                            SIMPLE_ELEMENT
+                        )
+                    )
+                }
+
+                count++
+
             }
 
-          if(count == 0 && operationsItems[i].operation.time.split(" ")[0] != operationsItems[i + 1].operation.time.split(" ")[0] ){
-                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, SINGLE_ELEMENT))
-            } else if(i == headerIndex){
-                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, FIRST_ELEMENT))
-                headerIndex = 0
-            }else if(operationsItems[i].operation.time.split(" ")[0] != operationsItems[i + 1].operation.time.split(" ")[0] || i == tempListSize - 1){
-                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, LAST_ELEMENT))
-            }else{
-                transactionsWithHeaders.add(TransactionsItem(operationsItems[i].operation, SIMPLE_ELEMENT))
-            }
+            val lastElement =
+                if (operationsItems.size != 1 && operationsItems[tempListSize].operation.time.split(
+                        " ")[0]
+                    == operationsItems[tempListSize - 1].operation.time.split(" ")[0]
+                ) {
+                    LAST_ELEMENT
+                } else {
+                    transactionsWithHeaders.add(
+                        HeaderItem(
+                            operationsItems[tempListSize].operation.time.split(" ")[0],
+                        )
+                    )
 
-            count++
+                    SINGLE_ELEMENT
+                }
+
+            transactionsWithHeaders.add(
+                TransactionsItem(
+                    operationsItems[tempListSize].operation,
+                    lastElement
+                )
+            )
 
         }
 

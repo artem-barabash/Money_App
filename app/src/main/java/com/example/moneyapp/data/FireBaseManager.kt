@@ -7,21 +7,21 @@ import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.Person
 import com.example.moneyapp.domain.entities.User
 import com.example.moneyapp.domain.use_cases.UserAccount
-import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.GET_DATA
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.RECEIVE
 import com.google.firebase.database.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlin.math.roundToInt
 
 
 class FireBaseManager {
+
+
 
     private var databaseReference: DatabaseReference= FirebaseDatabase.getInstance().reference
 
     private val num:Int = 4
 
-    private var COUNT_ROWS = 1
+
 
     fun addUser(user: User, password: String){
         val usersRef: DatabaseReference = databaseReference.child("User")
@@ -45,7 +45,7 @@ class FireBaseManager {
                 val list = ArrayList<Operation>()
                 val userAccount = UserAccount(userNumber, password,"", user, list)
                 val pdf = PDFFileManager()
-                pdf.createPdf(userAccount)
+                pdf.createUserPdf(userAccount)
 
             }
 
@@ -111,12 +111,8 @@ class FireBaseManager {
 
                         CoroutineScope(Dispatchers.IO).launch {
                             operationDao.insertAll(list)
-                            //if(query == RECEIVE){
-                                getPersonsFromBase(operationDao, list, query)
-                            //}
-                            GET_DATA = true
+                            getPersonsFromBase(operationDao, list, query)
                         }
-
 
                     }
 
@@ -171,6 +167,7 @@ class FireBaseManager {
                                     lastNameRecipient,
                                     queryDB)
                                 COUNT_ROWS++
+                                //operationDao.insertPersons(person)
                                 personList.add(person)
                             }
                         }
@@ -213,7 +210,7 @@ class FireBaseManager {
                         balance -= sum
                     }
                     userRef.child(number).child("balance")
-                        .setValue(Math.round(balance * 100.00) / 100.00)
+                        .setValue((balance * 100.00).roundToInt() / 100.00)
                 }
             }
 
@@ -227,6 +224,8 @@ class FireBaseManager {
         var userNumber: String = ""
 
         var COUNT_OPERATION = 1
+
+        var COUNT_ROWS = 1
     }
 
 

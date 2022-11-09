@@ -40,7 +40,6 @@ class HomeActivity : AppCompatActivity() {
 
     private var page = 0
 
-    private var pageIndex = -1
 
     private lateinit var sharedPreferencesPage: SharedPreferences
 
@@ -52,17 +51,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         super.onCreate(savedInstanceState)
-
-
-
-
-        if(savedInstanceState != null){
-
-            page = savedInstanceState.getInt(KEY_PAGE, 0)
-            //changePage(page)
-        }
-
-
 
         sharedPreferences = this.getSharedPreferences(TEMP_USER_DATA, MODE_PRIVATE)
 
@@ -98,9 +86,6 @@ class HomeActivity : AppCompatActivity() {
         UserAccountFactory(userAccount)
 
 
-
-
-        //replaceFragment(HomeFragment())
         changePage(page)
 
         binding.bottomNavigationBar.setOnItemSelectedListener {
@@ -113,7 +98,6 @@ class HomeActivity : AppCompatActivity() {
                 R.id.itemProfile -> {page = 3}
             }
 
-            //val selectedFragment : Fragment = fragmentList[page]
             changePage(page)
 
 
@@ -140,27 +124,6 @@ class HomeActivity : AppCompatActivity() {
         transaction.replace(R.id.fl_layout, selected)
         transaction.commit()
     }
-
-    @SuppressLint("CommitPrefEdits", "ApplySharedPref")
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-
-        /*pageIndex = sharedPreferencesPage.getInt(KEY_PAGE_INDEX, -1)
-
-        if(pageIndex != -1){
-            outState.putInt(KEY_PAGE, pageIndex)
-            pageIndex = -1
-
-            sharedPreferencesPage.edit().clear().commit()
-        }else{
-            outState.putInt(KEY_PAGE, page)
-        }*/
-
-        outState.putInt(KEY_PAGE, page)
-
-    }
-
 
 
     companion object {

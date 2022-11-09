@@ -33,10 +33,7 @@ import com.example.moneyapp.presentation.adapter.TransactionAdapter
 
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 /**
@@ -73,8 +70,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        //sharedViewModel.addOperationFromFireBaseToRoom()
+
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -105,6 +102,7 @@ class HomeFragment : Fragment() {
                 recyclerViewCard.adapter = cardAdapter
             })
         }
+
 
         return root
 
@@ -151,7 +149,8 @@ class HomeFragment : Fragment() {
         transactionRecyclerView.adapter = transactionAdapter
 
         viewLifecycleOwner.lifecycleScope.launch(){
-            sharedViewModel.getOperationsAll(ACCOUNT.number).collect(){ it ->
+            delay(1000)
+            sharedViewModel.getOperationsAll().collect(){ it ->
                 transactionAdapter.submitList(createSortedList(it)?.take(2))
             }
 
