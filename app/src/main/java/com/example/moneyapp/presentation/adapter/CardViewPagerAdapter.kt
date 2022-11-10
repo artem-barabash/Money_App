@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
 import com.example.moneyapp.domain.entities.Card
 import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CardViewPagerAdapter(private val cardList: ArrayList<Card>, private val context: Context): RecyclerView.Adapter<CardViewPagerAdapter.ImageViewHolder>() {
 
@@ -24,7 +26,7 @@ class CardViewPagerAdapter(private val cardList: ArrayList<Card>, private val co
 
         holder.imageView.setImageResource(if(item.type == "visa") R.drawable.ic_visa else R.drawable.ic_master)
 
-        holder.textBalanceCard.text = NumberFormat.getCurrencyInstance().format(item.balance)
+        holder.textBalanceCard.text = NumberFormat.getCurrencyInstance(Locale.US).format(item.balance)
 
         holder.textNumberCard.text = getNumberUser(item.number)
 

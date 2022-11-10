@@ -72,8 +72,8 @@ class CardFragment : Fragment() {
         }
 
         val listCard = ArrayList<Card>()
-        listCard.add(Card("master", ACCOUNT.number, "02/25", sharedViewModel.user.value?.user!!.balance))
-        listCard.add(Card("master", ACCOUNT.number, "02/25", sharedViewModel.user.value?.user!!.balance))
+        listCard.add(Card("master", ACCOUNT.number, "02/30", sharedViewModel.user.value?.user!!.balance))
+        listCard.add(Card("master", ACCOUNT.number, "02/30", sharedViewModel.user.value?.user!!.balance))
 
         val cardViewPager = binding?.cardViewPager
         val tabLayoutCardViewPager = binding?.tabLayout

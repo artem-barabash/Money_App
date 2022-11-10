@@ -1,12 +1,14 @@
 package com.example.moneyapp.presentation.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.moneyapp.R
 import com.example.moneyapp.databinding.FragmentAccountBinding
@@ -14,6 +16,8 @@ import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUN
 import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
+import java.util.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -26,6 +30,8 @@ class AccountFragment : Fragment() {
 
     private val binding get() = _binding
 
+    lateinit var langContext: Context
+
     private val sharedViewModel: HomeViewModel by activityViewModels {
         HomeViewModelFactory(
             ACCOUNT,
@@ -35,15 +41,6 @@ class AccountFragment : Fragment() {
 
     private var showNumber: Boolean = false
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +53,7 @@ class AccountFragment : Fragment() {
         return  root
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,6 +79,27 @@ class AccountFragment : Fragment() {
                 showNumber = false
             }
         }
+
+
+    }
+
+    /*override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.locale == Locale.ENGLISH) {
+            Toast.makeText(requireContext(), "English", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.locale == Locale.getDefault()){
+            Toast.makeText(requireContext(), "Ukrainian", Toast.LENGTH_SHORT).show();
+        }
+    }*/
+
+    private fun restartActivityInLanguage(language: String) {
+        val locale = Locale(language)
+        val config = Configuration()
+        config.locale = locale
+        val resources: Resources = resources
+        resources.updateConfiguration(config, resources.displayMetrics)
+        println("languale=" + config.locale)
+        requireActivity().recreate()
     }
 
     fun getUserNumber():String{

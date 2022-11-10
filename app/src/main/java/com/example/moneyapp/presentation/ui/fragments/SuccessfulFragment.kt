@@ -79,7 +79,7 @@ class SuccessfulFragment : Fragment() {
         operation = SingleTransactionFactory.OPERATION
 
         binding!!.texDetailNumberCard.text = sharedViewModel.showCardNumber(operation.receive)
-        binding!!.textDetailSum.text = NumberFormat.getCurrencyInstance().format(operation.sum)
+        binding!!.textDetailSum.text = NumberFormat.getCurrencyInstance(Locale.US).format(operation.sum)
 
         val pattern = "yyyy-MM-dd HH:mm:ss.SSS"
         val formatter = DateTimeFormatter.ofPattern(pattern)

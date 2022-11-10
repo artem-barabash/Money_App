@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Money App</string>
+    <string name="app_name" translatable="false">Money App</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <string name="enter_email">Enter email</string>
     <string name="enter_password">Enter password</string>
@@ -18,9 +18,9 @@
     <string name="birthday">Birthday:</string>
     <string name="select_date">Select</string>
 
-    <string name="home_address">Home Address Khreshtik street 58, Kyiv, Ukraine</string>
-    <string name="email">Email</string>
-    <string name="phone">Phone +380-XX-XXX-XX-XX</string>
+    <string name="home_address" translatable="false">Home Address Khreshtik street 58, Kyiv, Ukraine</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="phone" translatable="false">Phone +380-XX-XXX-XX-XX</string>
 
     <string name="password">Password</string>
     <string name="repeat_password">Repeat password</string>
@@ -54,7 +54,7 @@
     <string name="transactions_menu_item">Transactions</string>
     <string name="profile_menu_item">Profile</string>
 
-    <string name="greeting">Good Morning!</string>
+    <string name="greeting" translatable="false">Good Morning!</string>
     <string name="available_text">Available Balance</string>
 
     <string name="service_transfer">Transfer</string>
@@ -68,8 +68,8 @@
 
     <string name="view_all_btn_text"><u>View All</u></string>
 
-    <string name="visa_txt">Visa Card</string>
-    <string name="master_text">Master Card</string>
+    <string name="visa_txt" translatable="false">Visa Card</string>
+    <string name="master_text" translatable="false">Master Card</string>
 
     <string name="make_payment_text">Make a Payment</string>
 
@@ -88,14 +88,14 @@
 
     <!-- Account-->
     <string name="account_title">Account</string>
-    <string name="text_alpaca">Alpaca</string>
+    <string name="text_alpaca" translatable="false">Alpaca</string>
     <string name="text_holder_name">Card Holder Name</string>
     <string name="txt_expiry_date">Expiry date</string>
     <string name="detail_info">Detail information</string>
 
     <string name="account_name">Name</string>
     <string name="account_phone_number">Phone Number</string>
-    <string name="account_email">E-mail</string>
+    <string name="account_email" translatable="false">E-mail</string>
     <string name="account_home_address">Home Address</string>
 
     <string name="transfer_header">Transfer</string>
@@ -125,5 +125,7 @@
     <string name="detail_transaction">Detail Transaction</string>
     <string name="share_receipt">Share Receipt</string>
     <string name="btn_done">Done</string>
+
+    <string name="lang_txt">Language</string>
 
 </resources>
