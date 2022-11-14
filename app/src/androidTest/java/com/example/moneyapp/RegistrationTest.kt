@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
-class RegistrationInstrumentedTest : BaseTestCase() {
+class RegistrationTest : BaseTestCase() {
 
     @Before
     fun setup(){

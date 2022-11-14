@@ -1,36 +1,27 @@
 package com.example.moneyapp.presentation.ui.fragments
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Context
-import android.content.ContextWrapper
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.view.ContextThemeWrapper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.browser.trusted.ScreenOrientation
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
-import com.example.moneyapp.data.room.AppDatabase
 import com.example.moneyapp.databinding.FragmentHomeBinding
+import com.example.moneyapp.databinding.MyLoadingLayoutBinding
 import com.example.moneyapp.domain.entities.*
-
-import com.example.moneyapp.domain.use_cases.UserAccount
-import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
 import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.adapter.CardAdapter
-import com.example.moneyapp.presentation.adapter.OperationAdapter
 import com.example.moneyapp.presentation.adapter.ServiceAdapter
 import com.example.moneyapp.presentation.adapter.TransactionAdapter
-
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 import kotlinx.coroutines.*
@@ -55,6 +46,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var transactionRecyclerView: RecyclerView
 
+
     private val sharedViewModel: HomeViewModel by activityViewModels{
         HomeViewModelFactory(
             ACCOUNT,
@@ -70,6 +62,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
 
     }
@@ -93,6 +86,7 @@ class HomeFragment : Fragment() {
 
         recyclerViewCard = binding?.cardRecyclerView!!
         recyclerViewCard.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
 
 
 
@@ -123,6 +117,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun init(){
+
         recyclerViewService = binding?.serviceRecyclerView!!
         recyclerViewService.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
@@ -146,13 +141,20 @@ class HomeFragment : Fragment() {
 
         val transactionAdapter = TransactionAdapter{}
 
+
+
         transactionRecyclerView.adapter = transactionAdapter
 
         viewLifecycleOwner.lifecycleScope.launch(){
+            //binding!!.progressBar.progress = View.VISIBLE
             delay(1000)
+
             sharedViewModel.getOperationsAll().collect(){ it ->
                 transactionAdapter.submitList(createSortedList(it)?.take(2))
+
             }
+
+
 
         }
 

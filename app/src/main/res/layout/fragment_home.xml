@@ -12,6 +12,8 @@
         <variable
             name="homeFragment"
             type="com.example.moneyapp.presentation.ui.fragments.HomeFragment" />
+
+        <import type="android.view.View" />
     </data>
 
 
@@ -262,7 +264,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textTransaction"
                     tools:itemCount="2"
-                    tools:listitem="@layout/operation_item" />
+                    tools:listitem="@layout/operation_item" >
+
+                </androidx.recyclerview.widget.RecyclerView>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

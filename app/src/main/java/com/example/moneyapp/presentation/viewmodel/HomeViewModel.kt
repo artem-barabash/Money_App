@@ -76,7 +76,6 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     private fun addOperationFromFireBaseToRoom(){
         CoroutineScope(Dispatchers.IO).launch {
             //before delete last operations
-
             operationDao.deleteAllOperationsRows()
             operationDao.deleteAllPersonsRows()
 
@@ -87,6 +86,7 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
                 Person(COUNT_ROWS++, ACCOUNT.number, ACCOUNT.number,
                     ACCOUNT.number, "current_user")
             )
+
         }
 
 

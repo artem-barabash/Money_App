@@ -80,17 +80,16 @@ class AccountFragment : Fragment() {
             }
         }
 
-
     }
 
-    /*override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (newConfig.locale == Locale.ENGLISH) {
-            Toast.makeText(requireContext(), "English", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.locale == Locale.getDefault()){
-            Toast.makeText(requireContext(), "Ukrainian", Toast.LENGTH_SHORT).show();
+    fun changeLanguage(){
+        if(Locale.getDefault().language == "en"){
+            restartActivityInLanguage("uk")
+        }else{
+            restartActivityInLanguage("en")
         }
-    }*/
+
+    }
 
     private fun restartActivityInLanguage(language: String) {
         val locale = Locale(language)
@@ -101,6 +100,17 @@ class AccountFragment : Fragment() {
         println("languale=" + config.locale)
         requireActivity().recreate()
     }
+
+
+    /*override fun onConfigurationChanged(newConfig: Configuration) {
+      super.onConfigurationChanged(newConfig)
+      if (newConfig.locale == Locale.ENGLISH) {
+          Toast.makeText(requireContext(), "English", Toast.LENGTH_SHORT).show();
+      } else if (newConfig.locale == Locale.getDefault()){
+          Toast.makeText(requireContext(), "Ukrainian", Toast.LENGTH_SHORT).show();
+      }
+  }*/
+
 
     fun getUserNumber():String{
         val number = ACCOUNT.number

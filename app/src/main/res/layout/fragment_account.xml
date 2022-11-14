@@ -235,7 +235,8 @@
                             android:padding="9dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
+                            tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck"
+                            android:enabled="false"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -265,6 +266,7 @@
                             android:padding="9dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:enabled="false"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                     </LinearLayout>
 
@@ -295,6 +297,7 @@
                             android:padding="9dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:enabled="false"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                     </LinearLayout>
 
@@ -325,6 +328,7 @@
                             android:padding="9dp"
                             android:textColor="@color/black"
                             android:textSize="14sp"
+                            android:enabled="false"
                             tools:ignore="TouchTargetSizeCheck" />
                     </LinearLayout>
 
@@ -335,6 +339,7 @@
 
                         <!--<Button
                             android:id="@+id/buttonLang"
+                            android:onClick="@{() -> fragment.changeLanguage()}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
