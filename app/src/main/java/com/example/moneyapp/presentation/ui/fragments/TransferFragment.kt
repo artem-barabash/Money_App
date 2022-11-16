@@ -3,9 +3,7 @@ package com.example.moneyapp.presentation.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +12,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.browser.trusted.ScreenOrientation
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,18 +20,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.moneyapp.R
 import com.example.moneyapp.databinding.FragmentTransferBinding
 import com.example.moneyapp.domain.constant.Message
-import com.example.moneyapp.domain.entities.Person
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
 import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.adapter.PersonAdapter
 import com.example.moneyapp.presentation.adapter.TransferViewPagerAdapter
-import com.example.moneyapp.presentation.ui.HomeActivity.Companion.KEY_PAGE
 import com.example.moneyapp.presentation.ui.HomeActivity.Companion.KEY_PAGE_INDEX
 import com.example.moneyapp.presentation.ui.HomeActivity.Companion.KEY_PAGE_INDEX_CACHE
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
-import com.example.moneyapp.presentation.viewmodel.HomeViewModel.Companion.RECEIVE
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.dialog_custom.view.*
 import kotlinx.coroutines.launch
 
 
@@ -129,7 +125,7 @@ class TransferFragment : Fragment()  {
             R.array.pay_services_array,
             R.layout.spinner_list_selected
         ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_list_item)
+            adapter.setDropDownViewResource(com.example.moneyapp.R.layout.spinner_list_item)
             spinner.adapter = adapter
         }
 
@@ -160,13 +156,18 @@ class TransferFragment : Fragment()  {
     }
 
     fun clickToPayment(){
-        val editText = EditText(requireContext())
+        //val editText = EditText(requireContext())
+
+        val  inflater = this.layoutInflater
+        val custom_dialog: View = inflater.inflate(com.example.moneyapp.R.layout.dialog_custom, null)
+
+        val editText = custom_dialog.edit_text_receiptent
 
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle(R.string.app_name)
-            .setMessage(R.string.recipient_number)
-            .setIcon(R.drawable.ic_baseline_paid_24)
-            .setView(editText)
+            .setTitle(com.example.moneyapp.R.string.app_name)
+            .setMessage(com.example.moneyapp.R.string.recipient_number)
+            .setIcon(com.example.moneyapp.R.drawable.ic_baseline_paid_24)
+            .setView(custom_dialog)
             .setPositiveButton("Ok"
             ) { p0, p1 -> sharedViewModel.checkNumberInFirebase(editText.text.toString()) }
             .setNegativeButton("Cancel", null)
@@ -193,9 +194,9 @@ class TransferFragment : Fragment()  {
 
             }else{
                 val dialog = AlertDialog.Builder(requireContext())
-                    .setTitle(R.string.app_name)
-                    .setMessage(R.string.failure_payment)
-                    .setIcon(R.drawable.ic_baseline_paid_24)
+                    .setTitle(com.example.moneyapp.R.string.app_name)
+                    .setMessage(com.example.moneyapp.R.string.failure_payment)
+                    .setIcon(com.example.moneyapp.R.drawable.ic_baseline_paid_24)
                     .setNegativeButton("Cancel", null)
                 dialog.show()
             }
@@ -209,7 +210,7 @@ class TransferFragment : Fragment()  {
         val fragmentManager = (context as AppCompatActivity).supportFragmentManager
         val transactionFragment = fragmentManager.beginTransaction()
 
-        transactionFragment.replace(R.id.fl_layout, SuccessfulFragment())
+        transactionFragment.replace(com.example.moneyapp.R.id.fl_layout, SuccessfulFragment())
 
         transactionFragment.commit()
 

@@ -32,8 +32,16 @@ open class AccountTestCase {
 
     open fun testTransactionFragment(){
         login()
-        Thread.sleep(500)
+        Thread.sleep(1000)
         onView(withId(R.id.itemTransactions)).perform(click())
-        Thread.sleep(500)
+        Thread.sleep(2000)
+    }
+
+    open fun testAccountFragment(){
+        login()
+        Thread.sleep(1000)
+        onView(withId(R.id.itemProfile)).perform(click())
+        Thread.sleep(2000)
+
     }
 }

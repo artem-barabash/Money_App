@@ -8,7 +8,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
 import com.example.moneyapp.presentation.ui.HomeActivity
 import com.example.moneyapp.presentation.ui.LoginActivity
 import org.hamcrest.CoreMatchers.containsString
