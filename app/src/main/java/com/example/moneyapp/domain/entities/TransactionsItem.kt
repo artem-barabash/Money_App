@@ -28,16 +28,31 @@ data class TransactionsItem(val operation: Operation, val orderAtList: String): 
         holder: TransactionViewHolder,
         itemClickCallback: ((Operation) -> Unit)?
     ) {
+
         if (operation.receive == UserAccountFactory.ACCOUNT.number) {
-            holder.imageViewItem.setImageResource(R.drawable.ic_type_recieve)
 
-            holder.name_operation.text = operation.send
-            holder.name_operation.setTextColor(Color.rgb(35, 135, 0))
+            if(operation.send == "Admin"){
+                holder.imageViewItem.setImageResource(R.drawable.ic_salary)
 
-            val sum = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(operation.sum)
-            holder.textSum.text = sum
-            holder.textSum.setTextColor(Color.rgb(35, 135, 0))
-        } else if (operation.send == UserAccountFactory.ACCOUNT.number){
+                holder.name_operation.text = "Salary"
+                holder.name_operation.setTextColor(Color.rgb(211, 223,255))
+
+                val sum = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(operation.sum)
+                holder.textSum.text = sum
+                holder.textSum.setTextColor(Color.rgb(211, 223,255))
+
+            }else{
+                holder.imageViewItem.setImageResource(R.drawable.ic_type_recieve)
+
+                holder.name_operation.text = operation.send
+                holder.name_operation.setTextColor(Color.rgb(35, 135, 0))
+
+                val sum = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(operation.sum)
+                holder.textSum.text = sum
+                holder.textSum.setTextColor(Color.rgb(35, 135, 0))
+            }
+
+        } else{
             holder.imageViewItem.setImageResource(R.drawable.ic_type_sent)
 
             holder.name_operation.text = operation.receive
@@ -47,16 +62,6 @@ data class TransactionsItem(val operation: Operation, val orderAtList: String): 
             val sum = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(operation.sum)
             holder.textSum.text = "-$sum"
             holder.textSum.setTextColor(Color.rgb(231, 223,255))
-        }else{
-            holder.imageViewItem.setImageResource(R.drawable.ic_salary)
-
-            holder.name_operation.text = operation.receive
-            holder.name_operation.setTextColor(Color.rgb(211, 223,255))
-
-
-            val sum = NumberFormat.getCurrencyInstance(Locale("en", "US")).format(operation.sum)
-            holder.textSum.text = sum
-            holder.textSum.setTextColor(Color.rgb(211, 223,255))
         }
 
         when(orderAtList){

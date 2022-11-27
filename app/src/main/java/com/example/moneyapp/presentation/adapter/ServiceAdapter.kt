@@ -36,6 +36,8 @@ class ServiceAdapter(
 
 
             if(dataset[position].nameId == R.string.service_transfer){
+                transactionFragment.setReorderingAllowed(true)
+                transactionFragment.addToBackStack(null)
                 transactionFragment.replace(R.id.fl_layout, TransferFragment())
 
                 transactionFragment.commit()

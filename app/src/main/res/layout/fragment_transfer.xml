@@ -21,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_block"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
             android:layout_marginLeft="25dp"
             android:layout_marginTop="25dp"
@@ -131,9 +131,9 @@
 
             <TextView
                 android:id="@+id/textView8"
-                android:paddingTop="@dimen/top_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/top_margin"
 
                 android:text="@string/amount_txt"
                 android:textColor="@color/txt_color_4"
@@ -190,11 +190,11 @@
 
             <Button
                 android:id="@+id/button_send"
-                android:onClick="@{() -> fragment.sendMoney()}"
-                android:layout_marginTop="@dimen/side_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/side_margin"
                 android:background="@drawable/border_btn_send"
+                android:onClick="@{() -> fragment.sendMoney()}"
                 android:text="@string/send_btn_txt"
                 app:backgroundTint="@color/block_color_1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -205,10 +205,10 @@
                 android:id="@+id/text_user_field"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/side_margin"
                 android:text="@{viewModel.recipient}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:layout_marginLeft="@dimen/side_margin"
                 app:fontFamily="@font/poppins_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView7"

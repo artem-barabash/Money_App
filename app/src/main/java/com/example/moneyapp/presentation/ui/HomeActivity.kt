@@ -119,10 +119,15 @@ class HomeActivity : AppCompatActivity() {
 
     private fun replaceFragment(selected: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
-
-
         transaction.replace(R.id.fl_layout, selected)
+        transaction.setReorderingAllowed(true)
+        transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        binding.bottomNavigationBar.selectedItemId =  R.id.itemHome
     }
 
 

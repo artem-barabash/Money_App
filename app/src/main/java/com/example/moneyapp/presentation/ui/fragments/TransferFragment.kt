@@ -210,6 +210,9 @@ class TransferFragment : Fragment()  {
         val fragmentManager = (context as AppCompatActivity).supportFragmentManager
         val transactionFragment = fragmentManager.beginTransaction()
 
+        transactionFragment.setReorderingAllowed(true)
+        transactionFragment.addToBackStack(null)
+
         transactionFragment.replace(com.example.moneyapp.R.id.fl_layout, SuccessfulFragment())
 
         transactionFragment.commit()

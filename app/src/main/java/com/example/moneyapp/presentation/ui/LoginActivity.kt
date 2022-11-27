@@ -80,28 +80,30 @@ class LoginActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("ResourceAsColor")
     private fun loginUserInFireBase(){
-        if(!binding.editTextEmail.text.toString().isNullOrEmpty() && !binding.editTextPassword.text.toString().isNullOrEmpty()){
+        if(!binding.editTextEmail.text.toString().isNullOrEmpty() && !binding.editTextPassword.text.toString().isNullOrEmpty()
+        ){
+            if(binding.editTextEmail.text.toString() != "admin@gmail.com"){
+                auth.signInWithEmailAndPassword(binding.editTextEmail.text.toString(),
+                    binding.editTextPassword.text.toString())
+                    .addOnCompleteListener { task ->
+                        if(task.isSuccessful){
+                            binding.editTextEmail.backgroundTintList = getColorStateList(R.color.white)
+                            binding.editTextPassword.backgroundTintList = getColorStateList(R.color.white)
+                            binding.textViewOnError.text = ""
 
 
-            auth.signInWithEmailAndPassword(binding.editTextEmail.text.toString(),
-                binding.editTextPassword.text.toString())
-                .addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        binding.editTextEmail.backgroundTintList = getColorStateList(R.color.white)
-                        binding.editTextPassword.backgroundTintList = getColorStateList(R.color.white)
-                        binding.textViewOnError.text = ""
-
-
-                        getUserDataInFireBase(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
+                            getUserDataInFireBase(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
 
 
 
+                        }
+                    }.addOnFailureListener {
+                        binding.editTextEmail.backgroundTintList = getColorStateList(R.color.red)
+                        binding.editTextPassword.backgroundTintList = getColorStateList(R.color.red)
+                        binding.textViewOnError.setText(R.string.failure_auth)
                     }
-                }.addOnFailureListener {
-                    binding.editTextEmail.backgroundTintList = getColorStateList(R.color.red)
-                    binding.editTextPassword.backgroundTintList = getColorStateList(R.color.red)
-                    binding.textViewOnError.setText(R.string.failure_auth)
-                }
+            }
+
 
         }else{
             binding.textViewOnError.setText(R.string.message_empty_fields)
