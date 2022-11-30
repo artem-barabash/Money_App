@@ -11,12 +11,10 @@ import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.Person
 import com.example.moneyapp.domain.use_cases.SingleTransactionFactory
 import com.example.moneyapp.domain.use_cases.UserAccount
-import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.domain.use_cases.UserAccountFactory.Companion.ACCOUNT
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.sql.Timestamp
@@ -46,18 +44,23 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     private val fireBaseManager = FireBaseManager()
 
     init {
-        _user.value = userAccount
 
-        _balance.value = user.value?.user?.balance
+        viewModelScope.launch {
 
-        _recipient.value = ""
+            _user.value = userAccount
 
-        initCardList()
+            _balance.value = user.value?.user?.balance
+
+            _recipient.value = ""
+
+            initCardList()
 
 
-        addOperationFromFireBaseToRoom()
+            addOperationFromFireBaseToRoom()
+        }
 
     }
+
 
     private fun initCardList(){
 

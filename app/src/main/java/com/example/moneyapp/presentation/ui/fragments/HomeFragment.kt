@@ -67,6 +67,7 @@ class HomeFragment : Fragment() {
 
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -182,8 +183,6 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-
 
     }
 

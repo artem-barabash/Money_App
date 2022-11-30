@@ -1,19 +1,17 @@
 package com.example.moneyapp.presentation.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.browser.trusted.ScreenOrientation
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import com.example.moneyapp.R
 import com.example.moneyapp.databinding.ActivityHomeBinding
 import com.example.moneyapp.domain.entities.Operation
 import com.example.moneyapp.domain.entities.User
 import com.example.moneyapp.domain.use_cases.UserAccount
+import com.example.moneyapp.domain.use_cases.UserAccountFactory
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.BALANCE
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.BIRTHDAY
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.EMAIL
@@ -26,13 +24,9 @@ import com.example.moneyapp.presentation.ui.LoginActivity.Companion.NUMBER_KEY
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.PASSWORD
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.PHONE
 import com.example.moneyapp.presentation.ui.LoginActivity.Companion.TEMP_USER_DATA
-import com.google.firebase.database.*
-import com.example.moneyapp.R
-import com.example.moneyapp.domain.use_cases.UserAccountFactory
-import com.example.moneyapp.domain.use_cases.UserDataApplication
 import com.example.moneyapp.presentation.ui.fragments.*
-import com.example.moneyapp.presentation.viewmodel.HomeViewModel
-import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
+import com.google.firebase.database.*
+
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -105,6 +99,13 @@ class HomeActivity : AppCompatActivity() {
 
             return@setOnItemSelectedListener true
         }
+
+        binding.swiperefresh.setOnRefreshListener {
+            val i = Intent(this@HomeActivity, HomeActivity::class.java)
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(i);
+        }
     }
 
     private fun changePage(changedPage:Int){
@@ -113,7 +114,6 @@ class HomeActivity : AppCompatActivity() {
             1 -> replaceFragment(CardFragment())
             2 -> replaceFragment(TransactionListFragment())
             3 -> replaceFragment(AccountFragment())
-            4 -> replaceFragment(TransferFragment())
         }
     }
 

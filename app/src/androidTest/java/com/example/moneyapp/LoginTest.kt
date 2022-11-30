@@ -6,8 +6,10 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import com.example.moneyapp.presentation.ui.HomeActivity
 import com.example.moneyapp.presentation.ui.LoginActivity
 import org.hamcrest.CoreMatchers.containsString
@@ -31,6 +33,8 @@ class LoginTest {
     fun setup() {
         launchActivity<LoginActivity>()
     }
+    ///@Rule
+    ///val activityRule = ActivityScenarioRule(LoginActivity::class.java)
 
     @Test
     fun entered_in_account_empty_fields(){
@@ -60,32 +64,14 @@ class LoginTest {
 
         onView(withId(R.id.buttonLogin)).perform(click())
 
-        Thread.sleep(1000)
+        Thread.sleep(2000)
 
         onView(withId(R.id.textFullUserName))
             .check(matches(withText(containsString("Fox Fox"))))
         //
         onView(withId(R.id.textViewBalance))
-            .check(matches(withText(containsString("$23.47"))))
+            .check(matches(withText(containsString("$24.47"))))
     }
 
-    @Test
-    fun entered_in_account_and_back_to_login(){
-        onView(withId(R.id.editTextEmail)).perform(replaceText("fox@gmail.com"))
-
-        onView(withId(R.id.editTextPassword)).perform(replaceText("Fix@1234"))
-
-        onView(withId(R.id.buttonLogin)).perform(click())
-
-        Thread.sleep(1000)
-
-        onView(isRoot()).perform(pressBack())
-        //проверяем на пустое поля после выхода из акаунта
-        onView(withId(R.id.editTextEmail)).
-                check(matches(withText(containsString(""))))
-
-        onView(withId(R.id.editTextPassword)).
-        check(matches(withText(containsString(""))))
-    }
 
 }

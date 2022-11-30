@@ -44,8 +44,9 @@ import kotlin.collections.ArrayList
  * Use the [OperationFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class OperationFragment(private val selectedCategory: String) : Fragment() {
+class OperationFragment() : Fragment() {
 
+    private var selectedCategory: String? = null
     private var _binding: FragmentOperationBinding? = null
 
     private val binding get() = _binding
@@ -66,6 +67,9 @@ class OperationFragment(private val selectedCategory: String) : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if(arguments != null){
+            selectedCategory = requireArguments().getString(CATEGORY_KEY)
+        }
 
     }
 
@@ -233,6 +237,10 @@ class OperationFragment(private val selectedCategory: String) : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object{
+        const val CATEGORY_KEY = "category_key"
     }
 
 }
