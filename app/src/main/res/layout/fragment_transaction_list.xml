@@ -12,7 +12,7 @@
             type="com.example.moneyapp.presentation.viewmodel.HomeViewModel" />-->
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/transaction_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -156,7 +156,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>
 

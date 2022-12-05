@@ -39,7 +39,7 @@ import java.time.Period
 
 class RegistrationViewModel : ViewModel() {
 
-    private val _status = MutableLiveData<String>()
+    val _status = MutableLiveData<String>()
     val status: LiveData<String> = _status
 
     var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()

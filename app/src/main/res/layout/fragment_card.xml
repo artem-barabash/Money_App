@@ -14,7 +14,7 @@
             type="com.example.moneyapp.presentation.ui.fragments.CardFragment" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_block"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -193,7 +193,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>
 

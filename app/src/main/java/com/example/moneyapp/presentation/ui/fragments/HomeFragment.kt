@@ -46,6 +46,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var transactionRecyclerView: RecyclerView
 
+    private lateinit var transactionAdapter: TransactionAdapter
 
     private val sharedViewModel: HomeViewModel by activityViewModels{
         HomeViewModelFactory(
@@ -140,7 +141,7 @@ class HomeFragment : Fragment() {
         transactionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
 
-        val transactionAdapter = TransactionAdapter{}
+        transactionAdapter = TransactionAdapter{}
 
 
 
@@ -148,18 +149,17 @@ class HomeFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch(){
             //binding!!.progressBar.progress = View.VISIBLE
-            delay(1000)
-
-            sharedViewModel.getOperationsAll().collect(){ it ->
-                transactionAdapter.submitList(createSortedList(it)?.take(2))
-
-            }
-
-
-
+            getData()
         }
 
 
+    }
+
+    private suspend fun getData(){
+        delay(3000)
+        sharedViewModel.getOperationsAll().collect(){ it ->
+            transactionAdapter.submitList(createSortedList(it)?.take(2))
+        }
     }
 
     private fun createSortedList(operationList: List<Operation>) : MutableList<BaseItem>?{

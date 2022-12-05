@@ -21,7 +21,7 @@ import java.sql.Timestamp
 import java.text.NumberFormat
 import java.util.*
 
-class HomeViewModel(userAccount: UserAccount, private val operationDao: OperationDao): ViewModel() {
+class HomeViewModel(val userAccount: UserAccount, private val operationDao: OperationDao): ViewModel() {
 
     private val _user = MutableLiveData<UserAccount?>()
     val user: LiveData<UserAccount?> = _user
@@ -44,7 +44,10 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
     private val fireBaseManager = FireBaseManager()
 
     init {
+        initializeUserAccount()
+    }
 
+    private fun initializeUserAccount() {
         viewModelScope.launch {
 
             _user.value = userAccount
@@ -58,8 +61,16 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
             addOperationFromFireBaseToRoom()
         }
-
     }
+
+
+    /*public fun setBalance(sum: Double){
+        ACCOUNT.user.balance = sum
+
+        user.value?.user?.balance = sum
+
+        _balance.value = sum
+    }*/
 
 
     private fun initCardList(){
@@ -92,9 +103,8 @@ class HomeViewModel(userAccount: UserAccount, private val operationDao: Operatio
 
         }
 
-
-
     }
+
 
     private fun retrievedOperationsFromFireBase(q: String) {
         val number: String = user.value?.number ?: ""
