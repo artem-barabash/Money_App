@@ -12,6 +12,7 @@ import com.example.moneyapp.presentation.ui.fragments.operation_fragments.Operat
 import com.example.moneyapp.presentation.ui.fragments.tab_fragments.ServiceMenuFragment
 import com.example.moneyapp.presentation.ui.fragments.tab_fragments.TransactionsTabListFragment
 
+@Suppress("UNREACHABLE_CODE")
 class TabViewOperationsAdapter(fragment: Fragment, private val fragmentList: Array<String>): FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {
         return fragmentList.size
@@ -19,32 +20,10 @@ class TabViewOperationsAdapter(fragment: Fragment, private val fragmentList: Arr
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> {
-                val bundle = Bundle()
-                bundle.putString(CATEGORY_KEY, ALL_OPERATIONS)
-                val fragment = OperationFragment()
-                fragment.arguments = bundle
-
-                return fragment
-            }
-            1 -> {
-                val bundle = Bundle()
-                bundle.putString(CATEGORY_KEY, INCOME_OPERATIONS)
-                val fragment = OperationFragment()
-                fragment.arguments = bundle
-
-                return fragment
-            }
-            else -> {
-                val bundle = Bundle()
-                bundle.putString(CATEGORY_KEY, EXPENSE_OPERATIONS)
-                val fragment = OperationFragment()
-                fragment.arguments = bundle
-
-                return fragment
-            }
+            0 -> return OperationFragment.newInstance(ALL_OPERATIONS)
+            1 -> return OperationFragment.newInstance(INCOME_OPERATIONS)
+            else -> return OperationFragment.newInstance(EXPENSE_OPERATIONS)
         }
-
     }
 
 }

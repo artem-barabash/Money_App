@@ -120,9 +120,9 @@ class HomeActivity : AppCompatActivity() {
 
         binding.swiperefresh.setOnRefreshListener {
             val i = Intent(this@HomeActivity, HomeActivity::class.java)
-            finish();
-            overridePendingTransition(1, 1);
-            startActivity(i);
+            finish()
+            overridePendingTransition(1, 1)
+            startActivity(i)
         }
     }
 

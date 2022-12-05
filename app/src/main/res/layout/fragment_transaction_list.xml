@@ -12,151 +12,158 @@
             type="com.example.moneyapp.presentation.viewmodel.HomeViewModel" />-->
     </data>
 
-    <androidx.core.widget.NestedScrollView
+   <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/transaction_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           tools:ignore="MissingConstraints">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/caption_block"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/transaction_view_pager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:id="@+id/caption_block"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="25dp"
+               android:layout_marginEnd="25dp"
+               android:layout_marginBottom="16dp"
+               app:layout_constraintBottom_toTopOf="@+id/transaction_view_pager"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/textHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/transaction_caption"
-                    android:textColor="@color/txt_color_2"
-                    android:textSize="24sp"
-                    app:fontFamily="@font/poppins_medium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+               <TextView
+                   android:id="@+id/textHeader"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_marginTop="24dp"
+                   android:text="@string/transaction_caption"
+                   android:textColor="@color/txt_color_2"
+                   android:textSize="24sp"
+                   app:fontFamily="@font/poppins_medium"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textViewShowRecent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:clickable="true"
-                    android:text="@string/recent_caption"
-                    android:textColor="@color/dark_white"
-                    android:textSize="14sp"
-                    app:fontFamily="@font/poppins_medium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textHeader"
+               <TextView
+                   android:id="@+id/textViewShowRecent"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="32dp"
+                   android:clickable="true"
+                   android:text="@string/recent_caption"
+                   android:textColor="@color/dark_white"
+                   android:textSize="14sp"
+                   app:fontFamily="@font/poppins_medium"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/textHeader"
 
-                    tools:ignore="MissingConstraints" />
+                   tools:ignore="MissingConstraints" />
 
-                <!--android:onClick="@{() -> fragment.showRecentlyTransactions}"-->
-                <TextView
-                    android:id="@+id/textViewSelectTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:clickable="true"
-                    android:text="@string/select_time_txt"
-                    android:textColor="@color/dark_white"
-                    android:textSize="14sp"
-                    app:fontFamily="@font/poppins_medium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textHeader"
-                    tools:ignore="MissingConstraints" />
+               <!--android:onClick="@{() -> fragment.showRecentlyTransactions}"-->
+               <TextView
+                   android:id="@+id/textViewSelectTime"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="32dp"
+                   android:clickable="true"
+                   android:text="@string/select_time_txt"
+                   android:textColor="@color/dark_white"
+                   android:textSize="14sp"
+                   app:fontFamily="@font/poppins_medium"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/textHeader"
+                   tools:ignore="MissingConstraints" />
 
-                <!--android:onClick="@{() -> fragment.showSelectedTime()}"-->
+               <!--android:onClick="@{() -> fragment.showSelectedTime()}"-->
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+           </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/transaction_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:id="@+id/transaction_view_pager"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
 
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/caption_block">
+               android:layout_marginStart="25dp"
+               android:layout_marginTop="16dp"
+               android:layout_marginEnd="25dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/caption_block">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayoutTransactions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tabBackground="@drawable/view_pager_tab"
-                    app:tabIconTint="@null"
-                    app:tabIconTintMode="add"
-                    app:tabIndicator="@drawable/selected_view_pager_tab"
-                    app:tabIndicatorAnimationDuration="250"
-                    app:tabIndicatorAnimationMode="elastic"
-                    app:tabIndicatorColor="@color/block_color_1"
-                    app:tabIndicatorFullWidth="true"
-                    app:tabIndicatorGravity="stretch"
-                    app:tabInlineLabel="true"
-                    app:tabMode="auto"
-                    app:tabSelectedTextColor="@color/white"
-                    app:tabTextAppearance="@style/TextStyleTabViewPager"
-                    app:tabTextColor="@color/dark_white"
-                    tools:ignore="MissingConstraints">
+               <com.google.android.material.tabs.TabLayout
+                   android:id="@+id/tabLayoutTransactions"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/black"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:tabBackground="@drawable/view_pager_tab"
+                   app:tabIconTint="@null"
+                   app:tabIconTintMode="add"
+                   app:tabIndicator="@drawable/selected_view_pager_tab"
+                   app:tabIndicatorAnimationDuration="250"
+                   app:tabIndicatorAnimationMode="elastic"
+                   app:tabIndicatorColor="@color/block_color_1"
+                   app:tabIndicatorFullWidth="true"
+                   app:tabIndicatorGravity="stretch"
+                   app:tabInlineLabel="true"
+                   app:tabMode="auto"
+                   app:tabSelectedTextColor="@color/white"
+                   app:tabTextAppearance="@style/TextStyleTabViewPager"
+                   app:tabTextColor="@color/dark_white"
+                   tools:ignore="MissingConstraints">
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Monday" />
+                   <com.google.android.material.tabs.TabItem
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Monday" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tuesday" />
+                   <com.google.android.material.tabs.TabItem
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Tuesday" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Wednesday" />
-                </com.google.android.material.tabs.TabLayout>
+                   <com.google.android.material.tabs.TabItem
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Wednesday" />
+               </com.google.android.material.tabs.TabLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+           </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_view_pager">
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="0dp"
+               android:layout_height="0dp"
+               android:layout_marginStart="25dp"
+               android:layout_marginTop="32dp"
+               android:layout_marginEnd="25dp"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/transaction_view_pager">
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPagerTabTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+               <androidx.viewpager2.widget.ViewPager2
+                   android:id="@+id/viewPagerTabTransaction"
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent" />
+           </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+       </androidx.constraintlayout.widget.ConstraintLayout>
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
 

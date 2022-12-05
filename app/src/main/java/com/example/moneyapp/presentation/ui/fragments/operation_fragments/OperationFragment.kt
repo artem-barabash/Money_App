@@ -30,11 +30,8 @@ import com.example.moneyapp.presentation.adapter.TransactionAdapter.Companion.SI
 import com.example.moneyapp.presentation.viewmodel.HomeViewModel
 import com.example.moneyapp.presentation.viewmodel.factory.HomeViewModelFactory
 import com.google.firebase.database.*
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
@@ -103,15 +100,18 @@ class OperationFragment() : Fragment() {
     private fun initRecyclerView() {
         val number:String = sharedViewModel.user.value?.number ?: ""
 
+
         recyclerView = binding?.recyclerViewOperations!!
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+
 
         val transactionAdapter = TransactionAdapter {}
 
         recyclerView.adapter = transactionAdapter
 
         lifecycleScope.launch{
-
+            delay(1000)
             when(selectedCategory){
                 CategoryOperations.INCOME_OPERATIONS ->
                     sharedViewModel.getOperationsIncome(number).collect() { it ->
@@ -119,8 +119,8 @@ class OperationFragment() : Fragment() {
                     }
                 CategoryOperations.EXPENSE_OPERATIONS ->
                     sharedViewModel.getOperationsExpense(number).collect() { it ->
-                    transactionAdapter.submitList(createListGroupByDay(it))
-                }
+                        transactionAdapter.submitList(createListGroupByDay(it))
+                    }
                 else ->
                     sharedViewModel.getOperationsAll().collect() { it ->
                     transactionAdapter.submitList(createListGroupByDay(it))
@@ -241,6 +241,15 @@ class OperationFragment() : Fragment() {
 
     companion object{
         const val CATEGORY_KEY = "category_key"
+
+        fun newInstance(category: String) : OperationFragment{
+            val bundle = Bundle()
+            bundle.putString(CATEGORY_KEY, category)
+            val fragment = OperationFragment()
+            fragment.arguments = bundle
+
+            return fragment
+        }
     }
 
 }
