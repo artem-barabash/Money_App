@@ -9,6 +9,7 @@ import android.util.Log
 
 class LoginViewModel: ViewModel() {
 
+    //TODO
      fun isOnline(context: Context): Boolean {
 
         val connectivityManager =
